@@ -25,11 +25,11 @@
     (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
     <ng-container *ngFor="let item of GetSBOMsOfType('VALID'); let i = index">
       <div class="altColors">
-        <div *ngIf="getAlias(item)?.includes(GetFilter()) && ValidSBOMFormat(item)">
+        <div *ngIf="(getAlias(item)?.includes(GetFilter()) || item?.toString()?.includes(GetFilter())) && ValidSBOMFormat(item)">
           <div class="sbom-row flex">
             <div class="sbom" (dblclick)="ViewSBOM(item)">
               <input type="checkbox" [value]="item" class="sbom-checkbox" />
-              <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 90%"></app-menu>
+              <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 90%" title="{{ getAlias(item) }}"></app-menu>
             </div>
             <div class="sbom-view">
               {{GetSBOMInfo(item).format}}

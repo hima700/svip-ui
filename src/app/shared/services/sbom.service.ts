@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SVIPService } from './SVIP.service';
 import { PAGES, RoutingService } from './routing.service';
 import File, { FileStatus } from '../models/file';
+import { SBOM } from '../models/sbom';
 
 @Injectable({
   providedIn: 'root',
@@ -24,14 +25,17 @@ export class SbomService {
    * @param getSBOM by ID
    */
   addSBOMbyID(id: number) {
-    this.SVIPService.getSBOM(id as number).subscribe((sbom) => {
+    this.SVIPService.getSBOM(id as number).subscribe((sbom: SBOM) => {
       this.SVIPService.getSBOMContents(id as number).subscribe((data: any) => {
-        let path = data.fileName;
-        let contents = data.contents;
+        let path = (data as any).fileName;
+        let contents = (data as any).contents as string;
 
         const file = new File(path).setValid(id, contents, sbom);
         this.files[id] = file;
         this.SetSBOMFormat(sbom.format, true);
+        if ((sbom as any)['schema']) {
+          this.SetSBOMSchema((sbom as any)['schema'], true);
+        }
       });
     });
   }
@@ -40,9 +44,9 @@ export class SbomService {
    * Gets all SBOMS in database and sets up SBOM service
    */
   getAllSBOMs() {
-    this.SVIPService.getSBOMS().subscribe((ids) => {
+    this.SVIPService.getSBOMS().subscribe((ids: number[]) => {
       if (ids) {
-        ids.forEach((id) => this.addSBOMbyID(id));
+        ids.forEach((id: number) => this.addSBOMbyID(id));
       }
     });
   }
@@ -56,13 +60,13 @@ export class SbomService {
       let randomID = -Math.random().toString() + "-loading";
       // File is loading
       this.files[randomID] = new File(path);
-      this.SVIPService.getFileData(path).then((contents) => {
+      this.SVIPService.getFileData(path).then((contents: string) => {
         if (contents) {
           this.SVIPService.uploadSBOM(path, contents).subscribe(
-            (id) => {
+            (id: number) => {
               if (id) {
                 // Successful upload
-                this.SVIPService.getSBOM(id).subscribe((sbom) => {
+                this.SVIPService.getSBOM(id).subscribe((sbom: SBOM) => {
                   delete this.files[randomID];
                   let file = new File(path).setValid(id, contents, sbom);
                   this.files[id] = file;
@@ -87,7 +91,7 @@ export class SbomService {
   downloadSBOM(id: string): Blob {
     const file = this.files[id]?.contents;
     if (file !== null) {
-      return new Blob([file]);
+      return new Blob([file as any]);
     }
     throw new Error('File does not exist!');
   }
@@ -107,7 +111,7 @@ export class SbomService {
 
     idList.unshift(Number(targetID));
 
-    this.SVIPService.compareSBOMs(idList).subscribe((result) => {
+    this.SVIPService.compareSBOMs(idList).subscribe((result: any) => {
       this.comparison = result;
     });
   }
@@ -119,7 +123,7 @@ export class SbomService {
   deleteFile(id: string) {
     if (id && !isNaN(Number(id))) {
       // TODO: Add error handling for when file cannot be deleted
-      this.SVIPService.deleteSBOM(Number(id)).subscribe((deleted) => {
+      this.SVIPService.deleteSBOM(Number(id)).subscribe((deleted: any) => {
         if (deleted) {
           const data = this.routingService.data;
           if (data === id) {
@@ -148,7 +152,7 @@ export class SbomService {
     overwrite: boolean
   ) {
     this.SVIPService.convertSBOM(Number(id), schema, format, overwrite).subscribe(
-      (result) => {
+      (result: string) => {
         if (result) {
           this.addSBOMbyID(Number(result));
 
@@ -182,7 +186,7 @@ export class SbomService {
    * @param id sbom to check for
    */
   GetSBOMSchema(id: string) {
-    return this.files[id].schema;
+    return (this.files[id] as any).schema;
   }
 
   //#region SBOM format
@@ -207,7 +211,7 @@ export class SbomService {
    * @param id sbom to check for
    */
   GetSBOMFormat(id: string) {
-    return this.files[id].format;
+    return (this.files[id] as any).format;
   }
 
   //#endregion

@@ -1,16 +1,36 @@
  .warning {
-   background-color: #F44336;
+   background-color: #FFC107;
+ }
+
+ .info {
+   background-color: #4CAF50;
  }
 
  .error {
    background-color: #F44336;
  }
 
- .toast-header {
+ .toast-header.info {
+  background-color: #4CAF50;
+ }
+
+ .toast-header.warning {
+  background-color: #FFC107;
+ }
+
+ .toast-header.error {
   background-color: #F44336;
  }
 
- .toast-body {
+ .toast-body.info {
+  background-color: #E8F5E9;
+ }
+
+ .toast-body.warning {
+  background-color: #FFF8E1;
+ }
+
+ .toast-body.error {
   background-color: #FDE0DE;
  }
  

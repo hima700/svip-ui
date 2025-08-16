@@ -313,7 +313,7 @@ export class UploadComponent implements OnInit {
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      const filePaths = Array.from(files).map((file) => file.path);
+      const filePaths = Array.from(files).map((file: any) => (file.path as string));
       this.sbomService.AddFiles(filePaths);
     }
   }
@@ -331,6 +331,9 @@ export class UploadComponent implements OnInit {
     if (searchInput) {
       searchInput.value = '';
     }
+    // Re-enable all formats and schemas so nothing stays hidden
+    Object.keys(this.GetSBOMFormat()).forEach((key: string) => this.sbomService.SetSBOMFormat(key, true));
+    Object.keys(this.GetSBOMSchemas()).forEach((key: string) => this.sbomService.SetSBOMSchema(key, true));
   }
 
   UpdateSearch(event: any) {

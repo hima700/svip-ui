@@ -14,6 +14,14 @@ export class ToastService {
     this.toastEvents = this._toastEvents.asObservable();
   }
   
+  showInfoToast(title: string, message: string) {
+    this._toastEvents.next({
+      message,
+      title,
+      type: EventTypes.Info,
+    });
+  }
+  
   showWarningToast(title: string, message: string) {
     this._toastEvents.next({
       message,
