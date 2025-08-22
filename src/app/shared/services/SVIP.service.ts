@@ -222,8 +222,11 @@ export class SVIPService {
   async uploadProject(file: any, type: string) {
     return new Promise(async(resolve, reject) => {
       let formData = new FormData();
-      const fileToSend = (file instanceof File) ? file : new File([file], 'temp.zip');
-      formData.append('project', fileToSend);
+      // Disabled pre-zipped passthrough (kept for future use):
+      // const fileToSend = (file instanceof File) ? file : new File([file], 'temp.zip');
+      // formData.append('project', fileToSend);
+      // Reverted to original behavior: always wrap provided bytes into a new File
+      formData.append('project', new File([file], 'temp.zip'));
 
       let params = new HttpParams();
 

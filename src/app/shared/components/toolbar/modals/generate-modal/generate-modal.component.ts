@@ -37,7 +37,9 @@ export class GenerateModalComponent implements OnInit {
 
   public status: GenerationStatus = GenerationStatus.NULL;
   public zippedFileData: any;
-  public useExistingZip: boolean = false;
+  // Pre-zipped upload temporarily disabled; keep flag for future use
+  // public useExistingZip: boolean = false;
+  // public selectingSource: boolean = true; // when re-enabled, use to gate source step
 
   constructor(private service: SVIPService, private sbomService: SbomService, private toast: ToastService) {}
 
@@ -47,7 +49,32 @@ export class GenerateModalComponent implements OnInit {
         return;
 
         this.zippedFileData = undefined;
-        this.status = GenerationStatus.SELECTING_SOURCE;
+        // Reverted to original flow; previous pre-zip source selection kept below as comments
+        this.status = GenerationStatus.GENERATING;
+
+        this.service.getProjectDirectory().then((result) => {
+          this.status = GenerationStatus.ZIPPING;
+
+          this.service.zipFileDirectory(result).then((data) => {
+
+            this.service.uploadProject(data, 'osi').then((tools: any) => {
+
+              tools.forEach((tool: any) => {
+                this.osiTools[tool] = true;
+              })
+
+              this.zippedFileData = data;
+              this.status = GenerationStatus.PROJECT_INFO;
+
+            }).catch((error) => {
+              this.Close();
+            })
+          }).catch((error) => {
+            this.Close();
+          })
+        }).catch((error) => {
+          this.Close();
+        })
     });
   }
 
@@ -88,35 +115,37 @@ export class GenerateModalComponent implements OnInit {
     this.osiTools[event.name] = event.value;
   }
 
-  SelectFolderAndZip() {
-    this.status = GenerationStatus.ZIPPING;
-    this.service.getProjectDirectory().then((result) => {
-      this.service.zipFileDirectory(result).then((data) => {
-        this.service.uploadProject(data, 'osi').then((tools: any) => {
-          tools.forEach((tool: any) => {
-            this.osiTools[tool] = true;
-          })
-          this.zippedFileData = data;
-          this.status = GenerationStatus.PROJECT_INFO;
-        }).catch(() => { this.Close(); })
-      }).catch(() => { this.Close(); })
-    }).catch(() => { this.Close(); })
-  }
-
-  OnZipFileSelected(event: any) {
-    const files: FileList = event.target.files;
-    if (!files || files.length === 0)
-      return;
-    const zip = files[0];
-    this.status = GenerationStatus.GENERATING;
-    this.service.uploadProject(zip, 'osi').then((tools: any) => {
-      tools.forEach((tool: any) => {
-        this.osiTools[tool] = true;
-      })
-      this.zippedFileData = zip;
-      this.status = GenerationStatus.PROJECT_INFO;
-    }).catch(() => { this.Close(); })
-  }
+  // --- Begin: Pre-zipped flow (commented out) ---
+  // SelectFolderAndZip() {
+  //   this.status = GenerationStatus.ZIPPING;
+  //   this.service.getProjectDirectory().then((result) => {
+  //     this.service.zipFileDirectory(result).then((data) => {
+  //       this.service.uploadProject(data, 'osi').then((tools: any) => {
+  //         tools.forEach((tool: any) => {
+  //           this.osiTools[tool] = true;
+  //         })
+  //         this.zippedFileData = data;
+  //         this.status = GenerationStatus.PROJECT_INFO;
+  //       }).catch(() => { this.Close(); })
+  //     }).catch(() => { this.Close(); })
+  //   }).catch(() => { this.Close(); })
+  // }
+  //
+  // OnZipFileSelected(event: any) {
+  //   const files: FileList = event.target.files;
+  //   if (!files || files.length === 0)
+  //     return;
+  //   const zip = files[0];
+  //   this.status = GenerationStatus.GENERATING;
+  //   this.service.uploadProject(zip, 'osi').then((tools: any) => {
+  //     tools.forEach((tool: any) => {
+  //       this.osiTools[tool] = true;
+  //     })
+  //     this.zippedFileData = zip;
+  //     this.status = GenerationStatus.PROJECT_INFO;
+  //   }).catch(() => { this.Close(); })
+  // }
+  // --- End: Pre-zipped flow (commented out) ---
 
 
   Close() {
@@ -132,5 +161,5 @@ enum GenerationStatus {
   ZIPPING,
   PROJECT_INFO,
   GENERATING,
-  SELECTING_SOURCE,
+  // SELECTING_SOURCE, // disabled
 }
