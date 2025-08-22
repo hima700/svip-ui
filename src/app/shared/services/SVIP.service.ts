@@ -222,7 +222,8 @@ export class SVIPService {
   async uploadProject(file: any, type: string) {
     return new Promise(async(resolve, reject) => {
       let formData = new FormData();
-      formData.append('project', new File([file], 'temp.zip'));
+      const fileToSend = (file instanceof File) ? file : new File([file], 'temp.zip');
+      formData.append('project', fileToSend);
 
       let params = new HttpParams();
 
