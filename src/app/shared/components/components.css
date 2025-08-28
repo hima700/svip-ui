@@ -1,119 +1,118 @@
 
-  .button {
-    padding: 0px 15px;
-    background-color: var(--secondary);
-    gap: 10px;
-    width: fit-content;
-    height: 50px;
-    border-radius: 12px;
-    color: white;
-    transition-duration: 0.35s;
-    cursor: pointer;
-  }
+.button {
+  padding: 0px 15px;
+  background-color: var(--secondary);
+  gap: 10px;
+  width: fit-content;
+  height: 50px;
+  border-radius: 12px;
+  color: white;
+  transition-duration: 0.35s;
+  cursor: pointer;
+}
 
-  .color-bar {
-    height: 100%;
-    width: 5px;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+.color-bar {
+  height: 100%;
+  width: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
-  .dropdown {
-    background: var(--secondary);
-    color: white;
-    width: 100%;
-    margin: auto;
-    height: 50px;
-    align-items: center;
-    cursor: pointer;
-  }
+.dropdown {
+  background: var(--secondary);
+  color: white;
+  width: 100%;
+  margin: auto;
+  height: 50px;
+  align-items: center;
+  cursor: pointer;
+}
 
-  .dropdown > .selected {
-    margin-left: 25px;
-  }
+.dropdown > .selected {
+  margin-left: 25px;
+}
 
-  .dropdown > .mat-expansion-indicator {
-    margin-left: auto;
-    margin-right: 25px;
-    width: 100%;
-    height: 100%;
-  }
-
-
-
-  .accordion-bar {
-    background-color: var(--primary);
-    color: white;
-  }
-
-  .accordion-title:hover {
-    cursor: pointer;
-  }
-
-  .ngb-accordion {
-    width: 100%;
-    display: block;
-  }
-
-  .ngb-accordion-item {
-    margin-bottom: 10px;
-  }
-
-  .accordion-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-  }
+.dropdown > .mat-expansion-indicator {
+  margin-left: auto;
+  margin-right: 25px;
+  width: 100%;
+  height: 100%;
+}
 
 
-  .ngb-accordion-toggle {
-    flex: 1;
-    border: none;
-    background: none;
-    color: white;
-  }
+.accordion-bar {
+  background-color: var(--primary);
+  color: white;
+}
 
-  .ngb-accordion-desc {
-    display: flex;
-    flex-direction: column;
-    color: white;
-  }
+.accordion-title:hover {
+  cursor: pointer;
+}
 
-  .color-bar {
-    height: 100%;
-    width: 5px;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+.ngb-accordion {
+  width: 100%;
+  display: block;
+}
 
-  .ngb-accordion-body {
-    background-color: white;
-    padding: 10px;
-  }
+.ngb-accordion-item {
+  margin-bottom: 10px;
+}
 
-  .content {
-    display: block;
-  }
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
 
-  .circle-toggle {
-    display: flex;
-    margin-top: 5px;
-    white-space: nowrap;
-  }
 
-  .circle-toggle > .toggle {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    transition: background-color .1s ease-in-out
-  }
+.ngb-accordion-toggle {
+  flex: 1;
+  border: none;
+  background: none;
+  color: white;
+}
 
-  .circle-text {
-    margin-left: 10px;
-  }
+.ngb-accordion-desc {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.color-bar {
+  height: 100%;
+  width: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.ngb-accordion-body {
+  background-color: white;
+  padding: 10px;
+}
+
+.content {
+  display: block;
+}
+
+.circle-toggle {
+  display: flex;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+.circle-toggle > .toggle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  transition: background-color .1s ease-in-out
+}
+
+.circle-text {
+  margin-left: 10px;
+}

@@ -1,24 +1,32 @@
-<ngb-accordion #accordian>
-  <ngb-panel>
-    <ng-template ngbPanelTitle (click)="toggleExpanded()">
-      <div class="accordion-header flex">
+<div ngbAccordion>
+  <div ngbAccordionItem>
+    <!-- Accordion Header -->
+    <h2 ngbAccordionHeader>
+      <button class="accordion-header flex" ngbAccordionButton>
         <span>{{ title }}</span>
-        <ng-content select="[title]"/>
+        <ng-content select="[title]"></ng-content>
+
         <div class="accordion-desc flex col">
           <div *ngFor="let item of extra">{{ item }}</div>
         </div>
-        <ng-content select="[extra]" />
+
+        <ng-content select="[extra]"></ng-content>
+      </button>
+    </h2>
+
+    <!-- Accordion Body -->
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div
+          *ngIf="color !== ''"
+          [style.backgroundColor]="color"
+          class="color-bar"
+        ></div>
+
+        <div class="content">
+          <ng-content select="[body]"></ng-content>
+        </div>
       </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div
-        *ngIf="color != ''"
-        class="color-bar"
-        [style.backgroundColor]="color"
-      ></div>
-      <div class="content">
-        <ng-content select="[body]"></ng-content>
-      </div>
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+    </div>
+  </div>
+</div>

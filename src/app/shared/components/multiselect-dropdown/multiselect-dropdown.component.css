@@ -1,66 +1,66 @@
 .dropdown-check-list {
-    display: inline-block;
-    position: relative;
+  display: inline-block;
+  position: relative;
 }
 
 .dropdown-check-list .anchor {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 50px 5px 10px;
-    background: white;
-    border: var(--primary);
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 6px;
-    color: var(--primary);
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  background: white;
+  border: var(--primary);
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 6px;
+  color: var(--primary);
 }
 
 .dropdown-check-list .anchor:after {
-    position: absolute;
-    content: "";
-    border-left: 2px solid var(--primary);
-    border-top: 2px solid var(--primary);
-    padding: 5px;
-    right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
+  position: absolute;
+  content: "";
+  border-left: 2px solid var(--primary);
+  border-top: 2px solid var(--primary);
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
 }
 
 .dropdown-check-list .anchor:active:after {
-    right: 8px;
-    top: 21%;
+  right: 8px;
+  top: 21%;
 }
 
 .dropdown-check-list ul.items {
-    padding: 2px;
-    display: none;
-    margin: 0;
-    border: 1px solid var(--primary);
-    border-radius: 0px 0px 3px 3px;
-    border-top: none;
-    width: 100%;
-    background-color: #fff;
-    position: absolute;
-    z-index: 100;
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid var(--primary);
+  border-radius: 0px 0px 3px 3px;
+  border-top: none;
+  width: 100%;
+  background-color: #fff;
+  position: absolute;
+  z-index: 100;
 }
 
 .dropdown-check-list ul.items li {
-    list-style: none;
+  list-style: none;
 }
 
 .visible {
-    display: list-item !important;
+  display: list-item !important;
 }
 
 ::marker {
-    color: transparent !important;
+  color: transparent !important;
 }
 
-.schema{
+.schema {
   color: var(--primary);
 }

@@ -1,15 +1,15 @@
-<div class="modal fade-in" *ngIf="opened">
-  <div class="click-off" (click)="Close()"></div>
+<div *ngIf="opened" class="modal fade-in">
+  <div (click)="Close()" class="click-off"></div>
   <div class="content">
-      <div class="title">
-          <ng-content select='[title]'/>
-      </div>
-      <div class="body">
-          <ng-content select='[content]'/>
-      </div>
-      <div class="actions">
-          <ng-content select='[actions]'/>
-      </div>
-      <div class="close" (click)="Close()">x</div>
+    <div class="title">
+      <ng-content select='[title]'/>
+    </div>
+    <div class="body">
+      <ng-content select='[content]'/>
+    </div>
+    <div class="actions">
+      <ng-content select='[actions]'/>
+    </div>
+    <div (click)="Close()" class="close">x</div>
   </div>
 </div>

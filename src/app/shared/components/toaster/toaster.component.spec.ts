@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventTypes } from '../../models/event-types';
-import { ToasterComponent } from './toaster.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {EventTypes} from '../../models/event-types';
+import {ToasterComponent} from './toaster.component';
 
 describe('ToasterComponent', () => {
   let component: ToasterComponent;

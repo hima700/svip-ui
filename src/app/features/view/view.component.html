@@ -1,9 +1,9 @@
 <app-viewer
   *ngIf="data"
   [options]="['PRETTY', 'RAW']"
-  title="View SBOM"
-  subTitle="{{getAlias()}}"
   selectedOption="PRETTY"
+  subTitle="{{getAlias()}}"
+  title="View SBOM"
 >
   <div body-1 style="width: 100%;">
     <ng-template #components let-data>
@@ -54,7 +54,7 @@
 
   <div body-2 style="width: 100%;">
     <pre class="content">
-      {{ getContents()}}
+      {{ getContents() }}
     </pre>
   </div>
 </app-viewer>

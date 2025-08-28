@@ -1,4 +1,4 @@
-import { SBOM } from './sbom';
+import {SBOM} from './sbom';
 
 export default class File {
   static fileCount = -1;

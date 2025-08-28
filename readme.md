@@ -13,7 +13,7 @@ This serves as the front-end and human interaction with our software.
 
 ### System Requirements
 
-- Requires Node >= 18.12.1
+- Node: ^18.19.1 || ^20.11.1 || ^22.0.0
 
 ### Quick Start
 

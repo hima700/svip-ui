@@ -3,9 +3,10 @@
 import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['../components.css']
+    selector: 'app-accordion',
+    templateUrl: './accordion.component.html',
+    styleUrls: ['../components.css'],
+    standalone: false
 })
 export class AccordionComponent {
   @Input() title: string = '';
@@ -21,7 +22,7 @@ export class AccordionComponent {
 
     clickAccordionButton.addEventListener('click', (event) => {
 
-      //prgrammatically was clicked
+      // programmatically was clicked
       if(event.detail === 0) return;
 
       //get all siblings of the clicked element

@@ -1,12 +1,13 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { SVIPService } from 'src/app/shared/services/SVIP.service';
-import { SbomService } from 'src/app/shared/services/sbom.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {SVIPService} from 'src/app/shared/services/SVIP.service';
+import {SbomService} from 'src/app/shared/services/sbom.service';
+import {ToastService} from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-merge-modal',
   templateUrl: './merge-modal.component.html',
   styleUrls: ['./merge-modal.component.css'],
+  standalone: false
 })
 export class MergeModalComponent {
   @Input() opened!: boolean;
@@ -18,7 +19,8 @@ export class MergeModalComponent {
     private sbomService: SbomService,
     private SVIPService: SVIPService,
     private toastService: ToastService
-  ) {}
+  ) {
+  }
 
   merge() {
     const ids: number[] = [];

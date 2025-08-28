@@ -1,16 +1,15 @@
 /** @Author Justin Jantzi */
 
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService {
+  public showLogin: boolean = false;
   private readonly SERVER_URL: string = 'http://localhost:8080/svip/';
   private loggedIn: boolean = false;
-  public showLogin: boolean = false;
-
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -19,7 +18,8 @@ export class ClientService {
     params: new HttpParams(),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   setAPIKey(key: string) {
     this.httpOptions.headers.set('apiKey', key);
@@ -45,7 +45,7 @@ export class ClientService {
       'Access-Control-Allow-Origin': 'http://localhost:4200'
     });
 
-    return this.http.post(this.SERVER_URL + path, body, { headers: headers, params: params });
+    return this.http.post(this.SERVER_URL + path, body, {headers: headers, params: params});
   }
 
   put(path: string, params: HttpParams = new HttpParams()) {

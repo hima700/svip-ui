@@ -1,8 +1,8 @@
 <app-viewer
-  title="Metrics"
   [options]="['METADATA', 'COMPONENTS']"
   selectedOption="METADATA"
   subTitle="{{getAlias(name)}}"
+  title="Metrics"
 >
   <!-- METADATA -->
   <div body-1 style="width: 100%">
@@ -27,13 +27,13 @@
       <!-- Test results -->
       <ng-container *ngFor="let testResult of getTestResults('0')">
         <app-accordion *ngIf="isFiltered(testResult)">
-          <div title class="test-result">
+          <div class="test-result" title>
             <span>
               <span
-                ngbTooltip="FAILED"
-                placement="top"
                 *ngIf="testResult.status === 'FAIL'"
                 class="material-symbols-outlined"
+                ngbTooltip="FAILED"
+                placement="top"
                 style="color: var(--warn)"
               >
                 error
@@ -41,20 +41,21 @@
               {{ testResult.message }}</span
             >
           </div>
-          <div extra class="attributes">
+          <div class="attributes" extra>
             <ng-container *ngFor="let tag of testResult.attributes">
               <div
-                class="attribute"
                 *ngIf="attributes[tag].shown"
                 [ngStyle]="{ 'background-color': attributes[tag].color }"
                 [ngbTooltip]="tag"
+                class="attribute"
                 placement="top"
               ></div>
             </ng-container>
           </div>
           <span body class="flex error-result">
             {{ testResult.details }}
-            <app-button style="margin-left: auto;" (click)="openRepairModal(testResult, '0')" *ngIf="testResult.status === 'FAIL' && testResult.fixes.length > 0" icon="build"></app-button>
+            <app-button (click)="openRepairModal(testResult, '0')" *ngIf="testResult.status === 'FAIL' && testResult.fixes.length > 0"
+                        icon="build" style="margin-left: auto;"></app-button>
           </span>
         </app-accordion>
       </ng-container>
@@ -71,20 +72,20 @@
             getTestResults(component.key).length
           "
         >
-          <div title class="component-title">{{ this.qa.hashCodeMapping[component.key] }}</div>
+          <div class="component-title" title>{{ this.qa.hashCodeMapping[component.key] }}</div>
           <div body>
             <!-- Test results -->
             <ng-container
               *ngFor="let testResult of getTestResults(component.key)"
             >
               <app-accordion>
-                <div title class="test-result">
+                <div class="test-result" title>
                   <span>
                     <span
-                      ngbTooltip="FAILED"
-                      placement="top"
                       *ngIf="testResult.status === 'FAIL'"
                       class="material-symbols-outlined"
+                      ngbTooltip="FAILED"
+                      placement="top"
                       style="color: var(--warn)"
                     >
                       error
@@ -92,22 +93,24 @@
                     {{ testResult.message }}</span
                   >
                 </div>
-                <div extra class="attributes">
+                <div class="attributes" extra>
                   <ng-container *ngFor="let tag of testResult.attributes">
                     <div
                       *ngIf="attributes[tag].shown"
-                      class="attribute"
                       [ngStyle]="{
                         'background-color': attributes[tag].color
                       }"
                       [ngbTooltip]="tag"
+                      class="attribute"
                       placement="top"
                     ></div>
                   </ng-container>
                 </div>
                 <span body class="flex error-result">
                   {{ testResult.details }}
-                  <app-button style="margin-left: auto;" (click)="openRepairModal(testResult, component.key)" *ngIf="testResult.status === 'FAIL' && testResult.fixes.length > 0" icon="build"></app-button>
+                  <app-button (click)="openRepairModal(testResult, component.key)" *ngIf="testResult.status === 'FAIL' && testResult.fixes.length > 0"
+                              icon="build"
+                              style="margin-left: auto;"></app-button>
                 </span>
               </app-accordion>
             </ng-container>
@@ -131,10 +134,10 @@
         [(resultStatus)]="resultStatus"
       ></app-qa-filters>
       <div class="button-container">
-        <app-button text="Download Report" (click)="downloadReport()"></app-button>
+        <app-button (click)="downloadReport()" text="Download Report"></app-button>
       </div>
     </div>
   </ng-template>
 </app-viewer>
 
-<app-repair-modal [sbomID]="sbomID" [error]="selectedError" [opened] = "repairModal" (close)="repairModal = false"/>
+<app-repair-modal (close)="repairModal = false" [error]="selectedError" [opened]="repairModal" [sbomID]="sbomID"/>

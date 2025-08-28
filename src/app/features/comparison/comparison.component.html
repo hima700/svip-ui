@@ -1,7 +1,7 @@
 <app-viewer
-  title="Comparison"
   [options]="['Target: ' + getAlias(GetComparison()?.target)]"
   [selectedOption]="'Target: ' + getAlias(GetComparison()?.target)"
+  title="Comparison"
 >
 
   <div body-1 style="width: 100%">
@@ -12,7 +12,8 @@
   </div>
 
   <ng-template #compare>
-    <app-accordion *ngFor="let item of GetComparison().diffReport | keyvalue" [title]="getAlias(castToString(item.key))" style="width: 100%">
+    <app-accordion *ngFor="let item of GetComparison().diffReport | keyvalue" [title]="getAlias(castToString(item.key))"
+                   style="width: 100%">
       <div body>
         <app-accordion title="Component Conflicts">
           <div body>
@@ -20,9 +21,10 @@
               <app-accordion *ngIf="castAsAny(conflict.value)?.length" [title]="castToString(conflict.key)">
                 <div body>
                   <ng-container *ngFor="let value of castAsAny(conflict.value) | keyvalue">
-                    <app-accordion *ngIf="getFilterType(formatValue(castAsAny(value.value).type))" [title]="castToString(formatValue(castAsAny(value.value).message))" >
+                    <app-accordion *ngIf="getFilterType(formatValue(castAsAny(value.value).type))"
+                                   [title]="castToString(formatValue(castAsAny(value.value).message))">
                       <div body>
-                        <pre>{{formatValue(removeComment(value.value))}}</pre>
+                        <pre>{{ formatValue(removeComment(value.value)) }}</pre>
                       </div>
                     </app-accordion>
                   </ng-container>
@@ -31,9 +33,9 @@
             </ng-container>
           </div>
         </app-accordion>
-        <app-accordion title="Missing Components" *ngIf="castAsAny(item.value)?.missingComponents?.length">
+        <app-accordion *ngIf="castAsAny(item.value)?.missingComponents?.length" title="Missing Components">
           <div body>
-            <pre>{{formatValue(castAsAny(item.value).missingComponents)}}</pre>
+            <pre>{{ formatValue(castAsAny(item.value).missingComponents) }}</pre>
           </div>
         </app-accordion>
       </div>
@@ -48,7 +50,7 @@
         [(resultStatus)]="resultStatus"
       ></app-diff-filters>
       <div class="button-container">
-        <app-button text="Download Report" (click)="downloadReport()"></app-button>
+        <app-button (click)="downloadReport()" text="Download Report"></app-button>
       </div>
     </div>
   </ng-template>

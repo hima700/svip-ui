@@ -1,36 +1,36 @@
-<app-modal [opened]="opened" (close)="Close()">
-    <div title>
-      Convert Selected
+<app-modal (close)="Close()" [opened]="opened">
+  <div title>
+    Convert Selected
+  </div>
+  <div content style="display: flex; gap: 15px; flex-direction: column;">
+    <div>
+      <div>Format:</div>
+      <select [(ngModel)]="convertOptions.format">
+        <option value=""></option>
+        <option *ngFor="let option of choices | keyvalue" [value]="option.key">{{ option.key }}</option>
+      </select>
     </div>
-    <div content style="display: flex; gap: 15px; flex-direction: column;">
-      <div>
-        <div>Format:</div>
-        <select [(ngModel)]="convertOptions.format">
-          <option value=""></option>
-          <option *ngFor="let option of choices | keyvalue" [value]="option.key">{{ option.key }}</option>
-        </select>
-      </div>
-      <div>
-        <div>Schema:</div>
-        <select [(ngModel)]="convertOptions.schema">
-          <option value=""></option>
-          <option *ngFor="let option of choices[convertOptions.format]" [value]="option">{{ option }}</option>
-        </select>
-      </div>
-      <div>
-        <div>Overwrite Files:</div>
-        <select [(ngModel)]="convertOptions.overwrite">
-          <option value=""></option>
-          <option *ngFor="let option of [true, false]" [value]="option">{{ option }}</option>
-        </select>
-      </div>
+    <div>
+      <div>Schema:</div>
+      <select [(ngModel)]="convertOptions.schema">
+        <option value=""></option>
+        <option *ngFor="let option of choices[convertOptions.format]" [value]="option">{{ option }}</option>
+      </select>
     </div>
-    <div actions style=" display: flex; gap: 15px;">
-      <div class="btn-modal button flex center hover" (click)="ConvertSelected()">
-        <span>Convert</span>
-      </div>
-      <div class="btn-modal button flex center hover" (click)="Close()">
-        <span>Cancel</span>
-      </div>
+    <div>
+      <div>Overwrite Files:</div>
+      <select [(ngModel)]="convertOptions.overwrite">
+        <option value=""></option>
+        <option *ngFor="let option of [true, false]" [value]="option">{{ option }}</option>
+      </select>
     </div>
+  </div>
+  <div actions style=" display: flex; gap: 15px;">
+    <div (click)="ConvertSelected()" class="btn-modal button flex center hover">
+      <span>Convert</span>
+    </div>
+    <div (click)="Close()" class="btn-modal button flex center hover">
+      <span>Cancel</span>
+    </div>
+  </div>
 </app-modal>

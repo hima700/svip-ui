@@ -1,39 +1,39 @@
 .topnav {
-    overflow: hidden;
-    background-color: var(--primary) ;
-    /* check if its the primary accent */
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    height: 75px;
+  overflow: hidden;
+  background-color: var(--primary);
+  /* check if its the primary accent */
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  height: 75px;
 }
 
 .topnav a {
-    float: right;
-    color: white;
-    text-align: center;
-    padding: 17px;
-    text-decoration: none;
-    justify-content: center;
-    display: flex;
-    font-size: 25px;
-    height: 100%;
+  float: right;
+  color: white;
+  text-align: center;
+  padding: 17px;
+  text-decoration: none;
+  justify-content: center;
+  display: flex;
+  font-size: 25px;
+  height: 100%;
 }
 
 .topnav a:hover {
-    background-color: #ddd;
-    color: var(--primary-accent);
-    border-radius: 6px;
+  background-color: #ddd;
+  color: var(--primary-accent);
+  border-radius: 6px;
 }
 
 .topnav a.active {
-    background-color: white;
-    color: var(--primary-accent);
-    border-color: var(--primary-accent);
-    border-width: 2px;
-    border-color: black;
+  background-color: white;
+  color: var(--primary-accent);
+  border-color: var(--primary-accent);
+  border-width: 2px;
+  border-color: black;
 }
 
 .topnav img {
-    height: 100%;
+  height: 100%;
 }

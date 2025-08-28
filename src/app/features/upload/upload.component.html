@@ -1,28 +1,29 @@
-<div class="upload-container slide-up"  [style]="collapsed ? 'width: 0%; padding: 0;' : ''">
+<div [style]="collapsed ? 'width: 0%; padding: 0;' : ''" class="upload-container slide-up">
   <h3 [style]="collapsed ? 'display: none' : ''">SBOM Files</h3>
-  <div class="search-parent-container" *ngIf="GetAllFiles().length > 0">
-    <div class="search-container" [style]="collapsed ? 'display: none' : ''">
-      <input type="text" placeholder="Search.." name="search" (input)="UpdateSearch($event)">
+  <div *ngIf="GetAllFiles().length > 0" class="search-parent-container">
+    <div [style]="collapsed ? 'display: none' : ''" class="search-container">
+      <input (input)="UpdateSearch($event)" name="search" placeholder="Search.." type="text">
       <button (click)="ClearSearch()" [ngClass]="filterSearch ? '' : 'hide'"><i
-          class="search-btn material-symbols-outlined">clear</i></button>
+        class="search-btn material-symbols-outlined">clear</i></button>
       <button><i class="search-btn material-symbols-outlined">Search</i></button>
     </div>
-    <div class="format-filter"  [style]="collapsed ? 'display: none' : ''">
-      <app-multiselect-dropdown title="Filter Formats" [options]="GetSBOMFormat()"
-        (checkboxChange)="SbomFormatFilterChange($event)">
+    <div [style]="collapsed ? 'display: none' : ''" class="format-filter">
+      <app-multiselect-dropdown (checkboxChange)="SbomFormatFilterChange($event)" [options]="GetSBOMFormat()"
+                                title="Filter Formats">
       </app-multiselect-dropdown>
     </div>
   </div>
-  <div class="file-name flex" *ngIf="GetAllFiles().length > 0"  [style]="collapsed ? 'display: none' : ''">
+  <div *ngIf="GetAllFiles().length > 0" [style]="collapsed ? 'display: none' : ''" class="file-name flex">
     <div class="flex" style="width: 30%; min-width: 200px;">
-      <input type="checkbox" (change)="setAllSelected($event)" value="null" />
-      <h3 (click)="UpdateSort('NAME')">File Name {{sortingOptions['NAME'] ? '▴' : '▾'}}</h3>
+      <input (change)="setAllSelected($event)" type="checkbox" value="null"/>
+      <h3 (click)="UpdateSort('NAME')">File Name {{ sortingOptions['NAME'] ? '▴' : '▾' }}</h3>
     </div>
-    <h3 (click)="UpdateSort('FORMAT')">Format {{sortingOptions['FORMAT'] ? '▴' : '▾'}}</h3>
+    <h3 (click)="UpdateSort('FORMAT')">Format {{ sortingOptions['FORMAT'] ? '▴' : '▾' }}</h3>
   </div>
 
-  <div class="files-container" *ngIf="GetAllFiles().length > 0" (drop)="onFileDrop($event)"  [style]="collapsed ? 'display: none' : ''"
-    (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <div (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+       *ngIf="GetAllFiles().length > 0"
+       [style]="collapsed ? 'display: none' : ''" class="files-container">
     <ng-container *ngFor="let item of GetSBOMsOfType('VALID'); let i = index">
       <div class="altColors">
         <div *ngIf="(getAlias(item)?.includes(GetFilter()) || item?.toString()?.includes(GetFilter())) && ValidSBOMFormat(item)">
@@ -32,25 +33,26 @@
               <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 90%" title="{{ getAlias(item) }}"></app-menu>
             </div>
             <div class="sbom-view">
-              {{GetSBOMInfo(item).format}}
+              {{ GetSBOMInfo(item).format }}
             </div>
           </div>
         </div>
       </div>
     </ng-container>
 
-    <ng-container *ngFor="let item of GetSBOMsOfType('ERROR'); let i = index"  [style]="collapsed ? 'display: none' : ''">
+    <ng-container *ngFor="let item of GetSBOMsOfType('ERROR'); let i = index"
+                  [style]="collapsed ? 'display: none' : ''">
       <div *ngIf="getAlias(item)?.includes(GetFilter())">
         <div class="sbom" style="color: var(--red);">
-          <input type="checkbox" [value]="item" class="sbom-checkbox" [checked]="checkboxes[i]" />
+          <input [checked]="checkboxes[i]" [value]="item" class="sbom-checkbox" type="checkbox"/>
           <span ngbTooltip="SBOM is not valid!">
-            <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 100%"></app-menu>
+            <app-menu [data]="item" style="width: 100%" text="{{ getAlias(item) }}"></app-menu>
           </span>
         </div>
       </div>
     </ng-container>
 
-    <div *ngFor="let item of GetSBOMsOfType('LOADING')"  [style]="collapsed ? 'display: none' : ''">
+    <div *ngFor="let item of GetSBOMsOfType('LOADING')" [style]="collapsed ? 'display: none' : ''">
       <div class="sbom" style="color: var(--accent); width: 95%;">
         <app-spinner class="spinner"></app-spinner>
         <span class="spinner-text">{{ getAlias(item) }}</span>
@@ -58,53 +60,59 @@
     </div>
   </div>
 
-  <div class="buttons flex" *ngIf="GetAllFiles().length > 0"  [style]="collapsed ? 'display: none' : ''">
+  <div *ngIf="GetAllFiles().length > 0" [style]="collapsed ? 'display: none' : ''" class="buttons flex">
     <div class="flex buttons">
-      <app-button icon="delete" (click)="GetSelected().length >= 1 ? deleteModal = true : sbomsRequiredMessage(1, true)"></app-button>
-      <app-button icon="download" (click)="DownloadSelected()">download</app-button>
+      <app-button (click)="GetSelected().length >= 1 ? deleteModal = true : sbomsRequiredMessage(1, true)"
+                  icon="delete"></app-button>
+      <app-button (click)="DownloadSelected()" icon="download">download</app-button>
     </div>
-    <app-button text="Generate" (click)="generateModal = true"/>
-    <app-button text="Compare" (click)="GetSelected().length >= 2 ? compareModal = true : sbomsRequiredMessage(2, true)"/>
-    <app-button text="Convert" (click)="GetSelected().length === 1 ? openConvert() : sbomsRequiredMessage(1, false)"/>
-    <app-button text="Vex" (click)="GetSelected().length === 1 ? SetPageIfOneSelected(3) : sbomsRequiredMessage(1, false)"/>
-    <app-button text="Grade" (click)="GetSelected().length === 1 ?  gradeSBOM() : sbomsRequiredMessage(1, false)"/>
-    <app-button text="Merge" (click)="GetSelected().length >= 2 ? merge() : sbomsRequiredMessage(2, true)"/>
+    <app-button (click)="generateModal = true" text="Generate"/>
+    <app-button (click)="GetSelected().length >= 2 ? compareModal = true : sbomsRequiredMessage(2, true)"
+                text="Compare"/>
+    <app-button (click)="GetSelected().length === 1 ? openConvert() : sbomsRequiredMessage(1, false)" text="Convert"/>
+    <app-button (click)="GetSelected().length === 1 ? SetPageIfOneSelected(3) : sbomsRequiredMessage(1, false)"
+                text="Vex"/>
+    <app-button (click)="GetSelected().length === 1 ?  gradeSBOM() : sbomsRequiredMessage(1, false)" text="Grade"/>
+    <app-button (click)="GetSelected().length >= 2 ? merge() : sbomsRequiredMessage(2, true)" text="Merge"/>
   </div>
 
-  <div class="file-dropzone" *ngIf="GetAllFiles().length === 0" (drop)="onFileDrop($event)"  [style]="collapsed ? 'display: none' : ''"
-    (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <div (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+       *ngIf="GetAllFiles().length === 0"
+       [style]="collapsed ? 'display: none' : ''" class="file-dropzone">
     <div class="scale-in flex col center">
       <span class="material-symbols-outlined">publish</span>
       <hr>
       <p class="text-center">Drag and drop SBOMS</p>
-      <app-button text="Select Files" (click)="browse()"></app-button>
+      <app-button (click)="browse()" text="Select Files"></app-button>
     </div>
   </div>
 
-  <div class="generate-dropzone" *ngIf="GetAllFiles().length > 0" (drop)="onFileDrop($event)"  [style]="collapsed ? 'display: none' : ''"
-    (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <div (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+       *ngIf="GetAllFiles().length > 0"
+       [style]="collapsed ? 'display: none' : ''" class="generate-dropzone">
     <app-toggle></app-toggle>
   </div>
 
-  <div class="generate-dropzone" *ngIf="GetAllFiles().length === 0" (drop)="onFileDrop($event)"  [style]="collapsed ? 'display: none' : ''"
-    (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <div (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+       *ngIf="GetAllFiles().length === 0"
+       [style]="collapsed ? 'display: none' : ''" class="generate-dropzone">
     <div class="scale-in flex col center">
-      <app-button text="Generate" (click)="uploadProject()" />
+      <app-button (click)="uploadProject()" text="Generate"/>
       <p class="text-center">or drag project directory in here</p>
     </div>
   </div>
 
-  <div class="toggle-files" (click)="collapsed = !collapsed">
+  <div (click)="collapsed = !collapsed" class="toggle-files">
     <div class="text">
       Collapse
     </div>
   </div>
 </div>
 
-<app-generate-modal [opened] = "generateModal" (close)="generateModal = false"/>
-<app-compare-modal [opened] = "compareModal" (close)="compareModal = false"/>
-<app-convert-modal [opened] = "convertModal" (close)="convertModal = false" [choices]="this.convertChoices"/>
-<app-delete-modal [opened] = "deleteModal" (close)="deleteModal = false"/>
-<app-merge-modal [opened] = "mergeModal" (close)="mergeModal = false" [sboms]="GetSelected()"/>
+<app-generate-modal (close)="generateModal = false" [opened]="generateModal"/>
+<app-compare-modal (close)="compareModal = false" [opened]="compareModal"/>
+<app-convert-modal (close)="convertModal = false" [choices]="this.convertChoices" [opened]="convertModal"/>
+<app-delete-modal (close)="deleteModal = false" [opened]="deleteModal"/>
+<app-merge-modal (close)="mergeModal = false" [opened]="mergeModal" [sboms]="GetSelected()"/>
 
 <app-toaster/>

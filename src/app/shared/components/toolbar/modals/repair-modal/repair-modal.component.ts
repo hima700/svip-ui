@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SVIPService } from 'src/app/shared/services/SVIP.service';
-import { PAGES, RoutingService } from 'src/app/shared/services/routing.service';
-import { SbomService } from 'src/app/shared/services/sbom.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {SVIPService} from 'src/app/shared/services/SVIP.service';
+import {PAGES, RoutingService} from 'src/app/shared/services/routing.service';
+import {SbomService} from 'src/app/shared/services/sbom.service';
 
 @Component({
   selector: 'app-repair-modal',
   templateUrl: './repair-modal.component.html',
-  styleUrls: ['./repair-modal.component.css']
+  styleUrls: ['./repair-modal.component.css'],
+  standalone: false
 })
 export class RepairModalComponent {
 
@@ -16,14 +17,15 @@ export class RepairModalComponent {
   @Input() error: any = {};
   selectedFix: any = {};
 
-  constructor(private svipService: SVIPService, private routing: RoutingService, private sbomService: SbomService) {}
+  constructor(private svipService: SVIPService, private routing: RoutingService, private sbomService: SbomService) {
+  }
 
   Close() {
     this.close.emit(false);
   }
 
   Repair() {
-    let fix: {[id: number]: any[]} = {};
+    let fix: { [id: number]: any[] } = {};
 
     fix[this.error.id] = this.error.fixes.filter((x: any) => x.newString === this.selectedFix);
     delete fix[this.error.id][0].new;
@@ -31,7 +33,7 @@ export class RepairModalComponent {
     this.svipService.repairSBOM(this.sbomID, fix).then((data: any) => {
       this.close.emit(false);
 
-      if(data && !isNaN(data)) {
+      if (data && !isNaN(data)) {
         this.sbomService.addSBOMbyID(data);
         this.routing.Clear();
 
@@ -39,10 +41,10 @@ export class RepairModalComponent {
           this.routing.SetPage(PAGES.METRICS);
           this.routing.data = this.sbomService.GetSBOMInfo(data);
         }, 50)
-        
+
       }
     })
-    
+
   }
 
 }

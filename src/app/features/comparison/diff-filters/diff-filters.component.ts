@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import filter from '../../metrics/models/filters';
-import palettes, { PALETTE } from '../../metrics/models/palette';
+import palettes, {PALETTE} from '../../metrics/models/palette';
 
 
 @Component({
   selector: 'app-diff-filters',
   templateUrl: './diff-filters.component.html',
-  styleUrls: ['./diff-filters.component.css']
+  styleUrls: ['./diff-filters.component.css'],
+  standalone: false
 })
 export class DiffFiltersComponent {
   palettes = palettes;
@@ -21,8 +22,8 @@ export class DiffFiltersComponent {
   @Output() resultStatusChange = new EventEmitter<filter>();
 
 
-
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     this.selectedPalette = this.palette;

@@ -1,4 +1,4 @@
-import { EventTypes } from './event-types';
+import {EventTypes} from './event-types';
 
 export interface ToastEvent {
   type: EventTypes;

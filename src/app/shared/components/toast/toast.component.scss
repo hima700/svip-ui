@@ -1,3 +1,4 @@
+
  .warning {
    background-color: #FFC107;
  }
@@ -6,9 +7,11 @@
    background-color: #4CAF50;
  }
 
- .error {
-   background-color: #F44336;
- }
+
+.error {
+  background-color: #F44336;
+}
+
 
  .toast-header.info {
   background-color: #4CAF50;
@@ -20,7 +23,8 @@
 
  .toast-header.error {
   background-color: #F44336;
- }
+}
+
 
  .toast-body.info {
   background-color: #E8F5E9;
@@ -32,5 +36,4 @@
 
  .toast-body.error {
   background-color: #FDE0DE;
- }
- 
+}

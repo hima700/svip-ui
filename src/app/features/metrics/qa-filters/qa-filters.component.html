@@ -1,48 +1,50 @@
-<div class="filters" *ngIf="attributes">
+<div *ngIf="attributes" class="filters">
   <div class="title">
     Shown Tests
-    <span class="material-symbols-outlined" (click)="accessibilityModal = true">
+    <span (click)="accessibilityModal = true" class="material-symbols-outlined">
       <span class="material-symbols-outlined">
         settings_accessibility
       </span></span
     >
   </div>
   <app-circle-toggle
+    (click)="attribute.value.shown = !attribute.value.shown"
     *ngFor="let attribute of attributes | keyvalue"
     [color]="attribute.value.color"
     [toggle]="attribute.value.shown"
-    (click)="attribute.value.shown = !attribute.value.shown"
-    >{{ attribute.key }}</app-circle-toggle
+  >{{ attribute.key }}
+  </app-circle-toggle
   >
 
   <div class="title">Grade</div>
   <!-- Pass/Fail filters -->
   <app-circle-toggle
+    (click)="status.value.shown = !status.value.shown"
     *ngFor="let status of resultStatus | keyvalue"
     [color]="status.value.color"
     [toggle]="status.value.shown"
-    (click)="status.value.shown = !status.value.shown"
-    >{{status.key}}</app-circle-toggle
+  >{{ status.key }}
+  </app-circle-toggle
   >
 </div>
 
-<app-modal [opened]="accessibilityModal" (close)="accessibilityModal = false">
+<app-modal (close)="accessibilityModal = false" [opened]="accessibilityModal">
   <div title>Accessibility Settings</div>
-  <div content class="palettes">
+  <div class="palettes" content>
     <div>Test Color Palette:</div>
     <div *ngFor="let palette of palettes | keyvalue">
       <input
-        type="radio"
-        [value]="palette.key"
         (click)="selectPalette(palette.key)"
         [checked]="selectedPalette === palette.key"
+        [value]="palette.key"
+        type="radio"
       />{{ palette.key | titlecase }}
     </div>
   </div>
   <div actions style="display: flex; gap: 15px">
     <div
-      class="btn-modal button flex center hover"
       (click)="accessibilityModal = false"
+      class="btn-modal button flex center hover"
     >
       <span (click)="setPalette()">done</span>
     </div>

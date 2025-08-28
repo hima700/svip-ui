@@ -2,7 +2,6 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const fs = require("fs");
 const url = require("url");
 const path = require("path");
-const { zip } = require("zip-a-folder");
 
 let mainWindow;
 
@@ -22,7 +21,7 @@ function createWindow() {
 
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, `/dist/frontend/index.html`),
+      pathname: path.join(__dirname, `/dist/frontend/browser/index.html`),
       protocol: "file:",
       slashes: true,
     })
@@ -56,7 +55,7 @@ ipcMain.handle("getZipFromFolder", async () => {
     let folder = await dialog.showOpenDialog(mainWindow, {
       properties: ["openDirectory"],
     });
-  
+
     if(folder.filePaths.length === 1) {
       let zipPath = folder.filePaths[0];
       let tempPath = path.join(__dirname, "temp.zip");
@@ -73,6 +72,7 @@ ipcMain.handle("getZipFromFolder", async () => {
 ipcMain.handle("zipDirectory", async() => {
   return new Promise(async(resolve, reject) => {
     try {
+      const { zip } = await import('zip-a-folder');
       await zip(zipPaths[0], zipPaths[1]);
       const fileData = await fs.promises.readFile(zipPaths[1]);
       return resolve(fileData);

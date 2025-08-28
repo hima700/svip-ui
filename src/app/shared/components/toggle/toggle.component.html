@@ -1,20 +1,20 @@
 <div class="body">
-    <div class="header">
-        <div class="option" [id]='!upload ? "selected" : ""' (click)="upload = true">Upload</div>
-        <div class="option" [id]='upload ? "selected" : ""' (click)="upload = false">Generate</div>
-        <div class="slider" [id]='!upload ? "slide-right" : ""' ></div>
+  <div class="header">
+    <div (click)="upload = true" [id]='!upload ? "selected" : ""' class="option">Upload</div>
+    <div (click)="upload = false" [id]='upload ? "selected" : ""' class="option">Generate</div>
+    <div [id]='!upload ? "slide-right" : ""' class="slider"></div>
+  </div>
+  <ng-container *ngIf="upload">
+    <div class="dropzone">
+      <app-button (click)="browse()" text="Select Files"/>
+      <p class="text-center">or drag and drop SBOMS</p>
     </div>
-    <ng-container *ngIf="upload">
-        <div class="dropzone">
-            <app-button text="Select Files" (click)="browse()" />
-            <p class="text-center">or drag and drop SBOMS</p>
-        </div>
-    </ng-container>
+  </ng-container>
 
-    <ng-container *ngIf="!upload">
-        <div class="dropzone">
-            <app-button text="Generate" (click)="uploadProject()" />
-            <p class="text-center">or drag project directory in here</p>
-        </div>
-    </ng-container>
+  <ng-container *ngIf="!upload">
+    <div class="dropzone">
+      <app-button (click)="uploadProject()" text="Generate"/>
+      <p class="text-center">or drag project directory in here</p>
+    </div>
+  </ng-container>
 </div>

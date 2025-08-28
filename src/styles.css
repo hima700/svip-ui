@@ -1,22 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-    --accent: #58a5ff;
-    --green: #58ff82;
-    --red: #ff5858;
-    --primary: #6889AF;
-    --gray: gray;
-    --bg: #c7c7c7;
-    --warn: #f44336;
-    --success: #54AD78;
-    --highlight: #b3d5eb3f;
+  --accent: #58a5ff;
+  --green: #58ff82;
+  --red: #ff5858;
+  --primary: #6889AF;
+  --gray: gray;
+  --bg: #c7c7c7;
+  --warn: #f44336;
+  --success: #54AD78;
+  --highlight: #b3d5eb3f;
 
-  }
+}
 
 html,
 body {
   background-color: white;
   overflow: hidden;
 }
+
 body {
   margin: 0;
   font-family: 'Noto Sans',
@@ -109,7 +110,6 @@ body {
     transform: translate(0px);
   }
 }
-
 
 
 @keyframes slide-left {

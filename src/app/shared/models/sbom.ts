@@ -2,6 +2,7 @@
 
 export class SBOM implements ISBOM {
   [key: string]: any;
+
   format!: string;
   name!: string;
   uid!: string;
@@ -78,6 +79,7 @@ export class SBOM implements ISBOM {
     }
   }
 }
+
 export interface ISBOM {
   format: string;
   name: string;

@@ -1,11 +1,11 @@
 /**@author Justin Jantzi, Tina DiLorenzo*/
 
-import { Injectable } from '@angular/core';
-import { ClientService } from './client.service';
-import { IpcRenderer } from 'electron';
-import { Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
-import { SBOM } from '../models/sbom';
+import {Injectable} from '@angular/core';
+import {ClientService} from './client.service';
+import {IpcRenderer} from 'electron';
+import {Observable} from 'rxjs';
+import {HttpParams} from '@angular/common/http';
+import {SBOM} from '../models/sbom';
 
 @Injectable({
   providedIn: 'root',
@@ -137,17 +137,17 @@ export class SVIPService {
     ) as Observable<string>;
   }
 
-  async repairSBOM(sbom: number, fix: {[id: number]: any[]}) {
-    return new Promise(async(resolve, reject) => {
+  async repairSBOM(sbom: number, fix: { [id: number]: any[] }) {
+    return new Promise(async (resolve, reject) => {
       this.client.get('sboms/repair',
         new HttpParams().set('id', sbom)
-        .set('repairStatement', JSON.stringify(fix))
-        .set('overwrite', true)).subscribe((data) => {
-          if(data) {
-            return resolve(data);
-          }
-          return reject(false);
-        })
+          .set('repairStatement', JSON.stringify(fix))
+          .set('overwrite', true)).subscribe((data) => {
+        if (data) {
+          return resolve(data);
+        }
+        return reject(false);
+      })
     })
   }
 
@@ -174,35 +174,35 @@ export class SVIPService {
     return this.ipc.invoke('selectFiles');
   }
 
-  async getProjectDirectory() : Promise<any> {
-    return new Promise(async(resolve, reject) => {
-        await this.ipc.invoke('getZipFromFolder').then((value: any) => {
-          return resolve(true);
-        }).catch(() => {
-          return reject(false);
-        })
+  async getProjectDirectory(): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      await this.ipc.invoke('getZipFromFolder').then((value: any) => {
+        return resolve(true);
+      }).catch(() => {
+        return reject(false);
+      })
     })
   }
 
   async zipFileDirectory(data: any) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       await this.ipc.invoke('zipDirectory').then((value: any) => {
         return resolve(value);
       }).catch(() => {
         return reject(false);
       })
-  })
+    })
   }
 
   async generateFile(file: any, projectName: string, schema: string, format: string, type: string, osiTools: string[]) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let formData = new FormData();
 
       formData.append('projectName', projectName);
       formData.append('schema', schema);
       formData.append('format', format);
 
-      if(type.toLowerCase() === 'osi')
+      if (type.toLowerCase() === 'osi')
         formData.append('toolNames', JSON.stringify(osiTools));
       else
         formData.append('zipFile', new File([file], 'temp.zip'));
@@ -210,7 +210,7 @@ export class SVIPService {
       let params = new HttpParams();
 
       this.client.postFile('generators/' + type.toLowerCase(), formData, params).subscribe((data) => {
-        if(data) {
+        if (data) {
           return resolve(data);
         }
 
@@ -220,7 +220,7 @@ export class SVIPService {
   }
 
   async uploadProject(file: any, type: string) {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let formData = new FormData();
       // Disabled pre-zipped passthrough (kept for future use):
       // const fileToSend = (file instanceof File) ? file : new File([file], 'temp.zip');
@@ -231,7 +231,7 @@ export class SVIPService {
       let params = new HttpParams();
 
       this.client.postFile('generators/' + type.toLowerCase() + "/project", formData, params).subscribe((data) => {
-        if(data) {
+        if (data) {
           return resolve(data);
         }
 
@@ -239,5 +239,6 @@ export class SVIPService {
       })
     });
   }
+
   //#endregion
 }

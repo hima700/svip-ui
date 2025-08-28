@@ -1,9 +1,7 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MergeModalComponent } from './merge-modal.component';
+import {MergeModalComponent} from './merge-modal.component';
 
 describe('MergeModalComponent', () => {
   let component: MergeModalComponent;
@@ -11,9 +9,9 @@ describe('MergeModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MergeModalComponent ]
+      declarations: [MergeModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,9 +1,9 @@
-<div class="dropdown-check-list" (blur)="SetOpened(false)">
-    <span class="anchor" (click)="SetOpened(!opened)">{{ title }}</span>
-    <ul class="items" [class]="{ 'visible': opened }">
-        <li class="schema" *ngFor="let item of GetOptions() | keyvalue">
-            <input type="checkbox" [(ngModel)]="item.value" [value]="item.key" (change)="onCheckboxChange($event, item.key)"/>
-            {{ item.key }}
-        </li>
-    </ul>
+<div (blur)="SetOpened(false)" class="dropdown-check-list">
+  <span (click)="SetOpened(!opened)" class="anchor">{{ title }}</span>
+  <ul [class]="{ 'visible': opened }" class="items">
+    <li *ngFor="let item of GetOptions() | keyvalue" class="schema">
+      <input (change)="onCheckboxChange($event, item.key)" [(ngModel)]="item.value" [value]="item.key" type="checkbox"/>
+      {{ item.key }}
+    </li>
+  </ul>
 </div>

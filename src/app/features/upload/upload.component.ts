@@ -1,11 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { SbomService } from 'src/app/shared/services/sbom.service';
-import { PAGES, RoutingService } from 'src/app/shared/services/routing.service';
-import { FileStatus } from 'src/app/shared/models/file';
-import { SVIPService } from 'src/app/shared/services/SVIP.service';
-import { EventTypes } from 'src/app/shared/models/event-types';
-import { ToastService } from 'src/app/shared/services/toast.service';
-import { DownloadService } from 'src/app/shared/services/download.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {SbomService} from 'src/app/shared/services/sbom.service';
+import {PAGES, RoutingService} from 'src/app/shared/services/routing.service';
+import {FileStatus} from 'src/app/shared/models/file';
+import {SVIPService} from 'src/app/shared/services/SVIP.service';
+import {EventTypes} from 'src/app/shared/models/event-types';
+import {ToastService} from 'src/app/shared/services/toast.service';
+import {DownloadService} from 'src/app/shared/services/download.service';
 
 @Component({
   selector: 'app-upload',
@@ -13,7 +13,8 @@ import { DownloadService } from 'src/app/shared/services/download.service';
   styleUrls: ['./upload.component.css'],
   host: {
     '(window:resize)': 'onResize($event)'
-  }
+  },
+  standalone: false
 })
 export class UploadComponent implements OnInit {
   public filterSearch: string = '';
@@ -39,7 +40,7 @@ export class UploadComponent implements OnInit {
     overwrite: true,
   };
 
-  public convertChoices: {[key: string]: string[]} = {
+  public convertChoices: { [key: string]: string[] } = {
     'CDX14': ['JSON', 'XML'],
     'SPDX23': ['TAGVALUE', 'JSON'],
   }
@@ -58,7 +59,8 @@ export class UploadComponent implements OnInit {
     private toastService: ToastService,
     private svipService: SVIPService,
     private downloadService: DownloadService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.sbomService.getAllSBOMs();
@@ -86,7 +88,7 @@ export class UploadComponent implements OnInit {
    */
   ContainsFiles() {
     this.sbomService.GetSBOMsOfStatus(FileStatus.VALID).length > 0 ||
-      this.sbomService.GetSBOMsOfStatus(FileStatus.LOADING).length > 0;
+    this.sbomService.GetSBOMsOfStatus(FileStatus.LOADING).length > 0;
   }
 
   GetSelected() {
@@ -149,7 +151,7 @@ export class UploadComponent implements OnInit {
     return this.sbomService.getSBOMschemas();
   }
 
-  GetSBOMFormat(){
+  GetSBOMFormat() {
     return this.sbomService.getSBOMformat();
   }
 
@@ -219,15 +221,6 @@ export class UploadComponent implements OnInit {
     return false;
   }
 
-  private downloadFile(file: string) {
-    const fileInfo = this.sbomService.GetSBOMInfo(file);
-    const content = this.sbomService.downloadSBOM(file);
-
-    if (fileInfo && content) {
-      this.downloadService.Download(fileInfo.fileName, content);
-    }
-  }
-
   DownloadSelected() {
     if (this.CheckForErroredFiles()) {
       return;
@@ -254,7 +247,7 @@ export class UploadComponent implements OnInit {
 
       let path = this.getAlias(name);
 
-      if(!path)
+      if (!path)
         path = '';
 
       const file = this.GetSBOMInfo(name);
@@ -318,8 +311,8 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  onResize(event: any){
-    if(event.target.innerWidth > 1000)
+  onResize(event: any) {
+    if (event.target.innerWidth > 1000)
       this.collapsed = false;
   }
 
@@ -389,6 +382,15 @@ export class UploadComponent implements OnInit {
 
     this.routing.SetPage(PAGES.METRICS);
     this.routing.data = this.sbomService.GetSBOMInfo(selected[0]);
+  }
+
+  private downloadFile(file: string) {
+    const fileInfo = this.sbomService.GetSBOMInfo(file);
+    const content = this.sbomService.downloadSBOM(file);
+
+    if (fileInfo && content) {
+      this.downloadService.Download(fileInfo.fileName, content);
+    }
   }
 
 

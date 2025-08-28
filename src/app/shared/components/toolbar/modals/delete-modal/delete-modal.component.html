@@ -1,16 +1,16 @@
-<app-modal [opened]="opened" (close)="Close()">
-    <div title>
-        Delete Selected
+<app-modal (close)="Close()" [opened]="opened">
+  <div title>
+    Delete Selected
+  </div>
+  <div content>
+    Are you sure you want to delete the selected files?
+  </div>
+  <div actions style=" display: flex; gap: 15px;">
+    <div (click)="DeleteSelected()" class="btn-modal button flex center hover">
+      <span>Delete</span>
     </div>
-    <div content>
-        Are you sure you want to delete the selected files?
+    <div (click)="Close()" class="btn-modal button flex center hover">
+      <span>Cancel</span>
     </div>
-    <div actions style=" display: flex; gap: 15px;">
-        <div class="btn-modal button flex center hover" (click)="DeleteSelected()">
-        <span>Delete</span>
-        </div>
-        <div class="btn-modal button flex center hover" (click)="Close()">
-        <span>Cancel</span>
-        </div>
-    </div>
+  </div>
 </app-modal>

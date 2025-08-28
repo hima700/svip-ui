@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class RoutingService {
-  private page: PAGES = PAGES.NONE;
   data$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  set data(value: any) {
-    this.data$.next(value);
-  }
+  private page: PAGES = PAGES.NONE;
+
   get data() {
     return this.data$.value;
+  }
+
+  set data(value: any) {
+    this.data$.next(value);
   }
 
   GetPage(): PAGES {

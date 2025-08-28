@@ -1,9 +1,7 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QaFiltersComponent } from './qa-filters.component';
+import {QaFiltersComponent} from './qa-filters.component';
 
 describe('QaFiltersComponent', () => {
   let component: QaFiltersComponent;
@@ -11,9 +9,9 @@ describe('QaFiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QaFiltersComponent ]
+      declarations: [QaFiltersComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
