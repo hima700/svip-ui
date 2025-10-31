@@ -1,10 +1,12 @@
 <div id="main-wrapper">
   <app-navbar/>
-  <div class="body flex" style="overflow-y: auto;">
+  <div class="body flex" [class.with-right]="routing.GetPage() !== 0" style="overflow-y: auto;">
     <app-upload/>
     <app-view *ngIf="routing.GetPage() === 1"/>
     <app-comparison *ngIf="routing.GetPage() === 2"/>
     <app-vex *ngIf="routing.GetPage() === 3"/>
     <app-metrics *ngIf="routing.GetPage() === 4" />
+    <app-vulnerabilities *ngIf="routing.GetPage() === 5" />
+    <app-vulnerability-details *ngIf="routing.GetPage() === 6" />
   </div>
 </div>

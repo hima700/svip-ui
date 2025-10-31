@@ -1,0 +1,151 @@
+<!-- Vulnerability Dashboard -->
+<!-- @author Ibrahim Matar -->
+
+<div class="vulnerability-dashboard">
+  
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Security Dashboard</h1>
+    <p>Vulnerability tracking and trend analysis</p>
+  </div>
+
+  <!-- Global Controls -->
+  <div class="dashboard-controls">
+    <div class="control-group">
+      <label for="project-select">Project</label>
+      <select id="project-select" [(ngModel)]="selectedProject" (ngModelChange)="onProjectChange($event)">
+        <option value="">Select a project</option>
+        <option *ngFor="let project of projects" [value]="project">{{project}}</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="days-select">Time Range</label>
+      <select id="days-select" [(ngModel)]="trendDays" (ngModelChange)="onDaysChange($event)">
+        <option value="7">Last 7 days</option>
+        <option value="30">Last 30 days</option>
+        <option value="90">Last 90 days</option>
+        <option value="365">Last year</option>
+      </select>
+    </div>
+
+    <button class="clear-btn" (click)="clearProjectSelection()" [disabled]="!selectedProject">Clear</button>
+  </div>
+  
+  <!-- Alert Summary Cards -->
+  <div *ngIf="selectedProject; else selectProjectPrompt" class="stats-cards">
+    <div class="stat-card total">
+      <div class="stat-content">
+        <h3>{{stats.total}}</h3>
+        <p>Total Vulnerabilities</p>
+      </div>
+    </div>
+    
+    <div class="stat-card critical">
+      <div class="stat-content">
+        <h3>{{stats.critical}}</h3>
+        <p>Critical Vulnerabilities</p>
+      </div>
+    </div>
+    
+    <div class="stat-card high">
+      <div class="stat-content">
+        <h3>{{stats.high}}</h3>
+        <p>High Severity</p>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #selectProjectPrompt>
+    <div class="stats-placeholder">
+      <p>Select a project to view vulnerability metrics.</p>
+    </div>
+  </ng-template>
+  
+  <!-- Active Alerts Section -->
+  <div class="alerts-section" *ngIf="selectedProject">
+    <h2>Active Security Alerts</h2>
+    
+    <div *ngIf="alerts.length === 0" class="no-alerts">
+      <p>No unacknowledged alerts. Your project is looking good!</p>
+    </div>
+    
+    <div *ngFor="let alert of alerts" class="alert-card" [ngClass]="getSeverityClass(alert.severity)">
+      <div class="alert-header">
+        <div class="alert-info">
+          <h3>{{alert.projectName}}</h3>
+          <p class="alert-sbom-name" *ngIf="getPrettySbomName(alert.sbomName, alert.projectName) as pretty">{{pretty}}</p>
+        </div>
+        <span class="alert-badge">{{alert.severity}}</span>
+      </div>
+      
+      <div class="alert-body">
+        <p class="alert-message">{{formatAlertMessage(alert)}}</p>
+        <p class="alert-meta">
+          <span class="vuln-count">{{alert.vulnCount}} vulnerabilities</span>
+          <span class="alert-time" *ngIf="alert.createdAt; else noTimestamp">{{alert.createdAt | date:'short'}}</span>
+        </p>
+      </div>
+      
+      <div class="alert-actions">
+        <button class="btn-view" (click)="viewAlertDetails(alert)">View Details</button>
+        <button class="btn-acknowledge" (click)="acknowledgeAlert(alert.id)">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #noTimestamp>
+    <span class="alert-time">Timestamp unavailable</span>
+  </ng-template>
+  
+  <!-- Trend Analysis Section -->
+  <div class="trend-section">
+    <h2>Vulnerability Trends</h2>
+
+    <div *ngIf="trendData.length === 0" class="no-data">
+      <p>No historical data available for this project.</p>
+    </div>
+    
+    <div *ngIf="trendData.length > 0" class="trend-chart">
+      <!-- Simple ASCII-style chart for now - can be replaced with Chart.js later -->
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Scan Date</th>
+            <th>Total</th>
+            <th>Critical</th>
+            <th>High</th>
+            <th>Medium</th>
+            <th>Low</th>
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of trendData; let i = index">
+            <td>{{record.scanDate | date:'short'}}</td>
+            <td class="total-col">{{record.totalVulnerabilities}}</td>
+            <td class="critical-col">{{record.criticalCount}}</td>
+            <td class="high-col">{{record.highCount}}</td>
+            <td class="medium-col">{{record.mediumCount}}</td>
+            <td class="low-col">{{record.lowCount}}</td>
+            <td class="trend-col">
+              <span *ngIf="i < trendData.length - 1" class="trend-indicator">
+                <span *ngIf="record.totalVulnerabilities < trendData[i+1].totalVulnerabilities" class="trend-down">
+                  -{{trendData[i+1].totalVulnerabilities - record.totalVulnerabilities}}
+                </span>
+                <span *ngIf="record.totalVulnerabilities > trendData[i+1].totalVulnerabilities" class="trend-up">
+                  +{{record.totalVulnerabilities - trendData[i+1].totalVulnerabilities}}
+                </span>
+                <span *ngIf="record.totalVulnerabilities === trendData[i+1].totalVulnerabilities" class="trend-same">
+                  --
+                </span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+

@@ -41,11 +41,16 @@
 
     <ng-container *ngFor="let item of GetSBOMsOfType('ERROR'); let i = index"  [style]="collapsed ? 'display: none' : ''">
       <div *ngIf="getAlias(item)?.includes(GetFilter())">
-        <div class="sbom" style="color: var(--red);">
-          <input type="checkbox" [value]="item" class="sbom-checkbox" [checked]="checkboxes[i]" />
-          <span ngbTooltip="SBOM is not valid!">
-            <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 100%"></app-menu>
-          </span>
+        <div class="sbom-row sbom-error">
+          <div class="sbom">
+            <input type="checkbox" [value]="item" class="sbom-checkbox" [checked]="checkboxes[i]" />
+            <span ngbTooltip="SBOM is not valid!" style="flex: 1;">
+              <app-menu text="{{ getAlias(item) }}" [data]="item" style="width: 100%"></app-menu>
+            </span>
+          </div>
+          <div class="sbom-view">
+            <span class="badge badge-error">Invalid</span>
+          </div>
         </div>
       </div>
     </ng-container>
@@ -59,15 +64,15 @@
   </div>
 
   <div class="buttons flex" *ngIf="GetAllFiles().length > 0"  [style]="collapsed ? 'display: none' : ''">
-    <div class="flex buttons">
-      <app-button icon="delete" (click)="GetSelected().length >= 1 ? deleteModal = true : sbomsRequiredMessage(1, true)"></app-button>
-      <app-button icon="download" (click)="DownloadSelected()">download</app-button>
-    </div>
+    <app-button text="Upload" (click)="browse()"/>
+    <app-button icon="delete" (click)="GetSelected().length >= 1 ? deleteModal = true : sbomsRequiredMessage(1, true)"></app-button>
+    <app-button icon="download" (click)="DownloadSelected()">download</app-button>
     <app-button text="Generate" (click)="generateModal = true"/>
     <app-button text="Compare" (click)="GetSelected().length >= 2 ? compareModal = true : sbomsRequiredMessage(2, true)"/>
     <app-button text="Convert" (click)="GetSelected().length === 1 ? openConvert() : sbomsRequiredMessage(1, false)"/>
     <app-button text="Vex" (click)="GetSelected().length === 1 ? SetPageIfOneSelected(3) : sbomsRequiredMessage(1, false)"/>
     <app-button text="Grade" (click)="GetSelected().length === 1 ?  gradeSBOM() : sbomsRequiredMessage(1, false)"/>
+    <app-button text="Security" (click)="openSecurityDashboard()"/>
     <app-button text="Merge" (click)="GetSelected().length >= 2 ? merge() : sbomsRequiredMessage(2, true)"/>
   </div>
 

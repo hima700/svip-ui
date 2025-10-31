@@ -3,17 +3,23 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .body {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 72px);
 }
 
-.body > * {
-  width: 100%;
-  height: 90%;
-}
+.body > * { width: 100%; height: 90%; }
+
+/* When a right-side view is open (VIEW/COMPARE/VEX/METRICS), shrink left panel */
+.body.with-right app-upload { max-width: 420px; flex: 0 0 420px; }
+.body.with-right app-view,
+.body.with-right app-comparison,
+.body.with-right app-vex,
+.body.with-right app-metrics { flex: 1 1 auto; width: auto; }
 
 .flex {
   display: flex;

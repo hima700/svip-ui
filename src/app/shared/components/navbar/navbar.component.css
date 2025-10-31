@@ -1,39 +1,87 @@
-.topnav {
-    overflow: hidden;
-    background-color: var(--primary) ;
-    /* check if its the primary accent */
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    height: 75px;
+.navbar {
+  background-color: var(--theme-surface);
+  border-bottom: 1px solid var(--theme-border);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  z-index: 100;
+  transition: all var(--transition-base);
 }
 
-.topnav a {
-    float: right;
-    color: white;
-    text-align: center;
-    padding: 17px;
-    text-decoration: none;
-    justify-content: center;
-    display: flex;
-    font-size: 25px;
-    height: 100%;
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  height: 72px;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
-.topnav a:hover {
-    background-color: #ddd;
-    color: var(--primary-accent);
-    border-radius: 6px;
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
 }
 
-.topnav a.active {
-    background-color: white;
-    color: var(--primary-accent);
-    border-color: var(--primary-accent);
-    border-width: 2px;
-    border-color: black;
+.navbar-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
-.topnav img {
-    height: 100%;
+.navbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title-main {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--theme-text-primary);
+  line-height: 1.2;
+}
+
+.title-sub {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--theme-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background-color: var(--theme-bg-tertiary);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background-color: var(--brand-primary-light);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
 }

@@ -52,12 +52,17 @@ export class GenerateModalComponent implements OnInit {
         // Reverted to original flow; previous pre-zip source selection kept below as comments
         this.status = GenerationStatus.GENERATING;
 
+        console.log('[SBOM Gen] Starting project directory selection...');
         this.service.getProjectDirectory().then((result) => {
+          console.log('[SBOM Gen] Directory selected, starting zip...');
           this.status = GenerationStatus.ZIPPING;
 
-          this.service.zipFileDirectory(result).then((data) => {
+          this.service.zipFileDirectory(result).then((data: any) => {
+            console.log('[SBOM Gen] Zip complete, uploading to OSI...', data?.length || 0, 'bytes');
+            this.status = GenerationStatus.UPLOADING;
 
             this.service.uploadProject(data, 'osi').then((tools: any) => {
+              console.log('[SBOM Gen] OSI upload complete, tools:', tools);
 
               tools.forEach((tool: any) => {
                 this.osiTools[tool] = true;
@@ -67,12 +72,17 @@ export class GenerateModalComponent implements OnInit {
               this.status = GenerationStatus.PROJECT_INFO;
 
             }).catch((error) => {
+              console.error('[SBOM Gen] OSI upload failed:', error);
+              this.toast.showErrorToast("SBOM Generation", "Failed to upload project to OSI");
               this.Close();
             })
           }).catch((error) => {
+            console.error('[SBOM Gen] Zip failed:', error);
+            this.toast.showErrorToast("SBOM Generation", "Failed to zip project");
             this.Close();
           })
         }).catch((error) => {
+          console.error('[SBOM Gen] Directory selection cancelled or failed:', error);
           this.Close();
         })
     });
@@ -161,5 +171,6 @@ enum GenerationStatus {
   ZIPPING,
   PROJECT_INFO,
   GENERATING,
+  UPLOADING,
   // SELECTING_SOURCE, // disabled
 }

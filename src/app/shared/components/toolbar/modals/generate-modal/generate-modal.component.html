@@ -2,9 +2,10 @@
     <div title>
       Generate SBOM
     </div>
-    <div content *ngIf="this.status === 1" style="display: flex; flex-direction: column; align-items: center;">
+    <div content *ngIf="this.status === 1" style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px;">
       <app-spinner height="64px" style="height: 64px;"/>
-      <div>Waiting for Project Selection...</div>
+      <div style="font-size: 16px; font-weight: 500;">Waiting for Project Selection...</div>
+      <div style="font-size: 14px; color: #666;">Select a folder containing your project</div>
     </div>
     <!--
     <div content *ngIf="this.status === 5" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
@@ -20,13 +21,29 @@
       </div>
     </div>
     -->
-    <div content *ngIf="this.status === 2" style="display: flex; flex-direction: column; align-items: center;">
+    <div content *ngIf="this.status === 2" style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px;">
       <app-spinner height="64px" style="height: 64px;"/>
-      <div>Zipping Project Contents...</div>
+      <div style="font-size: 16px; font-weight: 500;">Compressing Project...</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar pulse"></div>
+      </div>
+      <div style="font-size: 14px; color: #666;">Creating archive of your project files</div>
     </div>
-    <div content *ngIf="this.status === 4" style="display: flex; flex-direction: column; align-items: center;">
+    <div content *ngIf="this.status === 5" style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px;">
       <app-spinner height="64px" style="height: 64px;"/>
-      <div>Generating SBOM...</div>
+      <div style="font-size: 16px; font-weight: 500;">Uploading to Analysis Engine...</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar pulse"></div>
+      </div>
+      <div style="font-size: 14px; color: #666;">Preparing project for SBOM generation</div>
+    </div>
+    <div content *ngIf="this.status === 4" style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px;">
+      <app-spinner height="64px" style="height: 64px;"/>
+      <div style="font-size: 16px; font-weight: 500;">Generating SBOM...</div>
+      <div class="progress-bar-container">
+        <div class="progress-bar pulse"></div>
+      </div>
+      <div style="font-size: 14px; color: #666;">Analyzing project and creating bill of materials</div>
     </div>
     <div content style="display: flex; gap: 15px; flex-direction: column;" *ngIf="this.status === 3">
       <div>

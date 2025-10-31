@@ -2,9 +2,9 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const fs = require("fs");
 const url = require("url");
 const path = require("path");
-const { zip } = require("zip-a-folder");
 
 let mainWindow;
+let zipPaths = [];
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -53,6 +53,7 @@ ipcMain.handle("selectFiles", async () => {
 
 ipcMain.handle("getZipFromFolder", async () => {
   return new Promise(async(resolve, reject) => {
+    console.log('[Electron] Opening folder dialog...');
     let folder = await dialog.showOpenDialog(mainWindow, {
       properties: ["openDirectory"],
     });
@@ -62,10 +63,13 @@ ipcMain.handle("getZipFromFolder", async () => {
       let tempPath = path.join(__dirname, "temp.zip");
 
       zipPaths = [zipPath, tempPath];
+      console.log('[Electron] Folder selected:', zipPath);
+      console.log('[Electron] Will zip to:', tempPath);
 
       return resolve(true);
     }
 
+    console.log('[Electron] No folder selected or cancelled');
     return reject(false);
   })
 });
@@ -73,10 +77,20 @@ ipcMain.handle("getZipFromFolder", async () => {
 ipcMain.handle("zipDirectory", async() => {
   return new Promise(async(resolve, reject) => {
     try {
+      console.log('[Electron] Starting zip of:', zipPaths[0]);
+      console.log('[Electron] Output path:', zipPaths[1]);
+      
+      // Dynamic import for ES module
+      const { zip } = await import("zip-a-folder");
       await zip(zipPaths[0], zipPaths[1]);
+      console.log('[Electron] Zip complete! Reading file...');
+      
       const fileData = await fs.promises.readFile(zipPaths[1]);
+      console.log('[Electron] File read complete, size:', fileData.length, 'bytes');
+      
       return resolve(fileData);
     } catch(error) {
+      console.error('[Electron] Zip error:', error);
       return reject(error);
     }
   })

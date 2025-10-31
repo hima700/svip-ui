@@ -391,6 +391,12 @@ export class UploadComponent implements OnInit {
     this.routing.data = this.sbomService.GetSBOMInfo(selected[0]);
   }
 
+  openSecurityDashboard() {
+    // Navigate to vulnerability dashboard (no SBOM selection required)
+    this.routing.SetPage(PAGES.VULNERABILITIES);
+    this.routing.data = null;
+  }
+
 
 }
 

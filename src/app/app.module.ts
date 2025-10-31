@@ -31,6 +31,8 @@ import { GenerateModalComponent } from './shared/components/toolbar/modals/gener
 import { DiffFiltersComponent } from './features/comparison/diff-filters/diff-filters.component';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 import { RepairModalComponent } from './shared/components/toolbar/modals/repair-modal/repair-modal.component';
+import { VulnerabilitiesComponent } from './features/vulnerabilities/vulnerabilities.component';
+import { VulnerabilityDetailsComponent } from './features/vulnerability-details/vulnerability-details.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,7 @@ import { RepairModalComponent } from './shared/components/toolbar/modals/repair-
     DiffFiltersComponent,
     RepairModalComponent
   ],
-  imports: [BrowserModule, NgbModule, HttpClientModule, NgbTooltipModule, FormsModule],
+  imports: [BrowserModule, NgbModule, HttpClientModule, NgbTooltipModule, FormsModule, VulnerabilitiesComponent, VulnerabilityDetailsComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

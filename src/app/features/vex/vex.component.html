@@ -1,65 +1,275 @@
-<app-viewer title="VEX" [options]="['SETTINGS', 'DATA']" selectedOption="SETTINGS">
-  <div body-1 style="display: flex; gap: 15px; flex-direction: column;">
-    <div>
-      <div>Database:</div>
-      <select [(ngModel)]="vexOptions.selectedDatabase">
-        <option value=""></option>
-        <option *ngFor="let option of vexOptions.databases" [value]="option">{{ option }}</option>
-      </select>
+<app-viewer title="VEX Report" [options]="['SETTINGS', 'REPORT']" [(selectedOption)]="selectedTab">
+  <!-- Settings Panel -->
+  <div body-1 class="vex-settings">
+    <div class="settings-card card">
+      <h4 class="settings-title">Vulnerability Database Configuration</h4>
+      
+      <div class="form-group">
+        <label class="form-label">Vulnerability Database</label>
+        <select class="form-select" [(ngModel)]="vexOptions.selectedDatabase">
+          <option value="">Select a database...</option>
+          <option *ngFor="let option of vexOptions.databases" [value]="option">{{ option }}</option>
+        </select>
+        <span class="form-help">Select the vulnerability database to scan against</span>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Output Format</label>
+        <select class="form-select" [(ngModel)]="vexOptions.selectedFormat">
+          <option value="">Select a format...</option>
+          <option *ngFor="let option of vexOptions.formats" [value]="option">{{ option }}</option>
+        </select>
+        <span class="form-help">Choose the VEX document output format</span>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">API Key <span class="badge badge-warning" *ngIf="vexOptions.requiresAPIKey.includes(vexOptions.selectedDatabase)">Required</span></label>
+        <input 
+          type="password" 
+          class="form-input" 
+          [(ngModel)]="vexOptions.apiKey" 
+          [disabled]="!vexOptions.requiresAPIKey.includes(vexOptions.selectedDatabase)"
+          placeholder="Enter your API key"/>
+        <span class="form-help" *ngIf="vexOptions.requiresAPIKey.includes(vexOptions.selectedDatabase)">API key required for {{vexOptions.selectedDatabase}}</span>
+      </div>
+      
+      <div class="form-actions">
+        <app-button text="Generate VEX Report" (click)="this.GenerateData()"/>
+      </div>
     </div>
-    <div>
-      <div>Format:</div>
-      <select [(ngModel)]="vexOptions.selectedFormat">
-        <option value=""></option>
-        <option *ngFor="let option of vexOptions.formats" [value]="option">{{ option }}</option>
-      </select>
-    </div>
-    <div>
-      <div>API Key:</div>
-      <input [(ngModel)]="vexOptions.apiKey" [disabled]="!vexOptions.requiresAPIKey.includes(vexOptions.selectedDatabase)"/>
-    </div>
-    <app-button text="Generate Data" (click)="this.GenerateData()"/>
   </div>
 
-  <div body-2 *ngIf="vex !== undefined && loading === false" style="width: 100%;">
-    <app-accordion title="General Information" *ngIf="vex.vex">
-      <div body>
-        <div [innerHTML]="formatValue(removeStatements(vex.vex))"></div>
-      </div>
-    </app-accordion>
-    <app-accordion title="Vex Statements" *ngIf="vex.vex && vex.vex.vexstatements">
-      <div body>
-        <ng-container *ngFor="let item of vex?.vex?.vexstatements | keyvalue">
-          <app-accordion [title]="castAsAny(item.value).statementID">
-            <div body>
-              <app-accordion *ngFor="let vex of castAsAny(item.value) | keyvalue" [title]="castAsAny(vex.key)">
-                <div body [innerHTML]="formatValue(vex.value)">
-                </div>
-              </app-accordion>
-            </div>
-          </app-accordion>
-        </ng-container>
-
-        <div *ngIf="vex.vex.vexstatements.length === 0">
-          None
+  <!-- Report Panel -->
+  <div body-2 *ngIf="vex !== undefined && loading === false" class="vex-report">
+    
+    <!-- Report Header with Actions -->
+    <div class="report-header-bar">
+      <div class="report-header-content">
+        <h2 class="report-main-title">Vulnerability Analysis Report</h2>
+        <div class="report-meta-row">
+          <span class="meta-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Database: {{vexOptions.selectedDatabase}}
+          </span>
+          <span class="meta-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            Format: {{vexOptions.selectedFormat}}
+          </span>
+          <span class="meta-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Generated: {{getCurrentTime()}}
+          </span>
         </div>
       </div>
-    </app-accordion>
-    <app-accordion title="Errors" *ngIf="vex.error">
-      <div body>
-        <div [innerHTML]="formatValue(vex.error)"></div>
-      </div>
-    </app-accordion>
-    <div class="btn-download">
       <app-button text="Download Report" (click)="downloadVex()"/>
+    </div>
+
+    <!-- Summary Cards Dashboard -->
+    <div class="dashboard-grid" *ngIf="vex.vex && vex.vex.vexstatements">
+      <div class="stat-card card">
+        <div class="stat-icon critical-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{getStatementsCount()}}</div>
+          <div class="stat-label">Total Findings</div>
+        </div>
+      </div>
+      
+      <div class="stat-card card">
+        <div class="stat-icon info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{vexOptions.selectedDatabase}}</div>
+          <div class="stat-label">Vulnerability DB</div>
+        </div>
+      </div>
+      
+      <div class="stat-card card">
+        <div class="stat-icon success-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{vexOptions.selectedFormat}}</div>
+          <div class="stat-label">Report Format</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vulnerability Table -->
+    <div #findingsSection class="card vex-table-section" *ngIf="vex.vex && vex.vex.vexstatements && getStatementsCount() > 0">
+      <div class="table-header">
+        <h3 class="table-title">Vulnerability Statements</h3>
+        <span class="table-count">{{getStatementsCount()}} findings</span>
+      </div>
+      
+      <div class="vulnerability-table">
+        <div class="table-row table-header-row">
+          <div class="table-cell">Vulnerability ID</div>
+          <div class="table-cell">Severity</div>
+          <div class="table-cell">Status</div>
+          <div class="table-cell">Description</div>
+          <div class="table-cell actions-header">Actions</div>
+        </div>
+        
+        <ng-container *ngFor="let item of vex?.vex?.vexstatements; let i = index">
+          <div class="table-row table-data-row" [class.expanded]="isStatementExpanded(i)" (click)="toggleStatement(i)">
+            <div class="table-cell vuln-id-cell" title="{{castAsAny(item).vulnerability?.statementID || castAsAny(item).statementID}}">
+              <div class="vuln-id-container">
+                <span class="vuln-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </span>
+                <div class="vuln-id-text">
+                  <div class="vuln-primary">{{castAsAny(item).vulnerability?.statementID || castAsAny(item).statementID || 'N/A'}}</div>
+                  <div class="vuln-secondary">{{castAsAny(item).statementID}}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="table-cell severity-cell">
+              <span class="badge" [ngClass]="getSeverityBadgeClass(castAsAny(item))">
+                {{getSeverity(castAsAny(item))}}
+              </span>
+            </div>
+            
+            <div class="table-cell status-cell">
+              <span class="badge" [ngClass]="getStatusBadgeClass(castAsAny(item).status)">
+                {{getStatusText(castAsAny(item).status)}}
+              </span>
+            </div>
+            
+            <div class="table-cell description-cell">
+              <span class="description-text">{{castAsAny(item).vulnerability?.description || 'No description available'}}</span>
+            </div>
+            
+            <div class="table-cell actions-cell">
+              <button class="action-btn" (click)="toggleStatement(i); $event.stopPropagation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="isStatementExpanded(i)">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                {{isStatementExpanded(i) ? 'Hide' : 'Details'}}
+              </button>
+            </div>
+          </div>
+          
+          <!-- Expanded Details Row -->
+          <div *ngIf="isStatementExpanded(i)" class="table-row table-details-row">
+            <div class="table-cell details-full-width" colspan="4">
+              <div class="details-grid">
+                <div class="details-column">
+                  <h5 class="details-heading">Status Information</h5>
+                  <div class="details-item" *ngIf="castAsAny(item).status?.vulnStatus">
+                    <span class="details-label">Vulnerability Status:</span>
+                    <span class="badge" [ngClass]="getStatusBadgeClass(castAsAny(item).status)">{{castAsAny(item).status.vulnStatus}}</span>
+                  </div>
+                  <div class="details-item" *ngIf="castAsAny(item).status?.justification">
+                    <span class="details-label">Justification:</span>
+                    <span class="details-text">{{castAsAny(item).status.justification}}</span>
+                  </div>
+                  <div class="details-item" *ngIf="castAsAny(item).statementFirstIssued">
+                    <span class="details-label">First Issued:</span>
+                    <span class="details-text">{{castAsAny(item).statementFirstIssued}}</span>
+                  </div>
+                  <div class="details-item" *ngIf="castAsAny(item).statementLastUpdated">
+                    <span class="details-label">Last Updated:</span>
+                    <span class="details-text">{{castAsAny(item).statementLastUpdated}}</span>
+                  </div>
+                </div>
+                
+                <div class="details-column">
+                  <h5 class="details-heading">Impact & Actions</h5>
+                  <div class="details-item" *ngIf="castAsAny(item).status?.impactStatement">
+                    <span class="details-label">Impact Statement:</span>
+                    <div class="details-text-block">{{castAsAny(item).status.impactStatement}}</div>
+                  </div>
+                  <div class="details-item" *ngIf="castAsAny(item).status?.actionStatement && castAsAny(item).status.actionStatement !== castAsAny(item).status.impactStatement">
+                    <span class="details-label">Action Statement:</span>
+                    <div class="details-text-block">{{castAsAny(item).status.actionStatement}}</div>
+                  </div>
+                </div>
+                
+                <div class="details-column" *ngIf="castAsAny(item).products && castAsAny(item).products.length > 0">
+                  <h5 class="details-heading">Affected Products</h5>
+                <div class="products-list">
+                  <div *ngFor="let product of castAsAny(item).products" class="product-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                      <line x1="8" y1="21" x2="16" y2="21"></line>
+                      <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>{{formatProductName(product)}}</span>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      
+      <div class="empty-state" *ngIf="getStatementsCount() === 0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+        <p>No VEX statements found</p>
+      </div>
+    </div>
+
+    <!-- Errors -->
+    <div class="card vex-section error-section" *ngIf="vex.error">
+      <div class="section-header">
+        <h3 class="section-title">Errors</h3>
+        <span class="badge badge-error">Error</span>
+      </div>
+      <div class="section-content">
+        <div class="error-content" [innerHTML]="formatValue(vex.error)"></div>
+      </div>
     </div>
   </div>
 
-  <div body-2 *ngIf="vex === undefined && loading === false" style="margin:auto;">
-    Press 'Generate Data' in settings to view data
+  <!-- Empty State (no data generated) -->
+  <div body-2 *ngIf="vex === undefined && loading === false" class="empty-state-container">
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="12" y1="18" x2="12" y2="12"></line>
+        <line x1="9" y1="15" x2="15" y2="15"></line>
+      </svg>
+      <h3>No VEX Report Generated</h3>
+      <p>Configure settings and click "Generate VEX Report" to begin vulnerability analysis</p>
+    </div>
   </div>
 
-  <div body-2 *ngIf="loading === true" style="align-items: center; width: 100%;">
-    <app-spinner style="margin: auto;" height="64px" width="64px"></app-spinner>
+  <!-- Loading State -->
+  <div body-2 *ngIf="loading === true" class="loading-container">
+    <div class="loading-text">Generating VEX Report...</div>
+    <div class="progress-bar-container">
+      <div class="progress-bar pulse"></div>
+    </div>
+    <div class="loading-subtext">Analyzing vulnerabilities and creating report</div>
   </div>
 </app-viewer>

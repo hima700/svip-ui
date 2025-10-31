@@ -1,25 +1,136 @@
-/* You can add global styles to this file, and also import other style files */
-:root {
-    --accent: #58a5ff;
-    --green: #58ff82;
-    --red: #ff5858;
-    --primary: #6889AF;
-    --gray: gray;
-    --bg: #c7c7c7;
-    --warn: #f44336;
-    --success: #54AD78;
-    --highlight: #b3d5eb3f;
+/* Professional Design System with Light/Dark Theme Support */
 
-  }
+:root {
+  /* Light Theme (Default) */
+  --theme-bg-primary: #f5f7fa;
+  --theme-bg-secondary: #ffffff;
+  --theme-bg-tertiary: #e8ecf1;
+  --theme-surface: #ffffff;
+  --theme-surface-elevated: #ffffff;
+  
+  --theme-text-primary: #1a2332;
+  --theme-text-secondary: #556B7F;
+  --theme-text-tertiary: #8394a5;
+  --theme-text-inverse: #ffffff;
+  
+  --theme-border: #d4dce6;
+  --theme-border-light: #e8ecf1;
+  --theme-divider: #e8ecf1;
+  
+  /* Brand Colors */
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-primary-light: #dbeafe;
+  --brand-accent: #3b82f6;
+  
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-success-bg: #d1fae5;
+  --color-success-border: #6ee7b7;
+  
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fef3c7;
+  --color-warning-border: #fcd34d;
+  
+  --color-error: #ef4444;
+  --color-error-bg: #fee2e2;
+  --color-error-border: #fca5a5;
+  
+  --color-info: #3b82f6;
+  --color-info-bg: #dbeafe;
+  --color-info-border: #93c5fd;
+  
+  /* Severity Colors (for VEX/vulnerabilities) */
+  --severity-critical: #dc2626;
+  --severity-critical-bg: #fef2f2;
+  --severity-high: #ea580c;
+  --severity-high-bg: #fff7ed;
+  --severity-medium: #f59e0b;
+  --severity-medium-bg: #fefce8;
+  --severity-low: #3b82f6;
+  --severity-low-bg: #eff6ff;
+  --severity-none: #6b7280;
+  --severity-none-bg: #f9fafb;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Typography */
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-family-mono: 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --theme-bg-primary: #0f172a;
+  --theme-bg-secondary: #1e293b;
+  --theme-bg-tertiary: #334155;
+  --theme-surface: #1e293b;
+  --theme-surface-elevated: #334155;
+  
+  --theme-text-primary: #f1f5f9;
+  --theme-text-secondary: #cbd5e1;
+  --theme-text-tertiary: #94a3b8;
+  --theme-text-inverse: #0f172a;
+  
+  --theme-border: #475569;
+  --theme-border-light: #334155;
+  --theme-divider: #334155;
+  
+  --brand-primary: #3b82f6;
+  --brand-primary-hover: #60a5fa;
+  --brand-primary-light: #1e3a8a;
+  --brand-accent: #60a5fa;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  
+  /* Dark mode severity backgrounds are more subtle */
+  --severity-critical-bg: #450a0a;
+  --severity-high-bg: #431407;
+  --severity-medium-bg: #422006;
+  --severity-low-bg: #172554;
+  --severity-none-bg: #1f2937;
+}
 
 html,
 body {
-  background-color: white;
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
   overflow: hidden;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
+
 body {
   margin: 0;
-  font-family: 'Noto Sans',
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .flex {
@@ -132,4 +243,188 @@ body {
     transform: translate(0px);
     opacity: 100%;
   }
+}
+
+/* Professional Utility Classes */
+
+/* Card Styles */
+.card {
+  background-color: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-elevated {
+  background-color: var(--theme-surface-elevated);
+  box-shadow: var(--shadow-md);
+}
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.badge-critical {
+  background-color: var(--severity-critical-bg);
+  color: var(--severity-critical);
+  border: 1px solid var(--severity-critical);
+}
+
+.badge-high {
+  background-color: var(--severity-high-bg);
+  color: var(--severity-high);
+  border: 1px solid var(--severity-high);
+}
+
+.badge-medium {
+  background-color: var(--severity-medium-bg);
+  color: var(--severity-medium);
+  border: 1px solid var(--severity-medium);
+}
+
+.badge-low {
+  background-color: var(--severity-low-bg);
+  color: var(--severity-low);
+  border: 1px solid var(--severity-low);
+}
+
+.badge-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.badge-warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-border);
+}
+
+.badge-error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error-border);
+}
+
+.badge-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border: 1px solid var(--color-info-border);
+}
+
+/* Typography */
+.text-primary {
+  color: var(--theme-text-primary);
+}
+
+.text-secondary {
+  color: var(--theme-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--theme-text-tertiary);
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-base {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Spacing utilities */
+.p-xs { padding: var(--space-xs); }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+
+.m-xs { margin: var(--space-xs); }
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+.m-lg { margin: var(--space-lg); }
+.m-xl { margin: var(--space-xl); }
+
+/* Grid layouts */
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.gap-sm {
+  gap: var(--space-sm);
+}
+
+.gap-md {
+  gap: var(--space-md);
+}
+
+.gap-lg {
+  gap: var(--space-lg);
+}
+
+/* Dividers */
+.divider {
+  border-top: 1px solid var(--theme-divider);
+  margin: var(--space-lg) 0;
+}
+
+/* Interactive elements */
+.interactive {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.interactive:hover {
+  opacity: 0.8;
+}
+
+.interactive:active {
+  transform: scale(0.98);
 }

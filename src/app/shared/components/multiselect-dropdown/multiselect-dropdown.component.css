@@ -1,66 +1,105 @@
 .dropdown-check-list {
-    display: inline-block;
-    position: relative;
+  display: inline-block;
+  position: relative;
+  width: 100%;
 }
 
 .dropdown-check-list .anchor {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 50px 5px 10px;
-    background: white;
-    border: var(--primary);
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 6px;
-    color: var(--primary);
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--radius-md);
+  color: var(--theme-text-primary);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+  min-height: 44px;
+}
+
+.dropdown-check-list .anchor:hover {
+  border-color: var(--brand-primary);
+  background-color: var(--theme-bg-tertiary);
 }
 
 .dropdown-check-list .anchor:after {
-    position: absolute;
-    content: "";
-    border-left: 2px solid var(--primary);
-    border-top: 2px solid var(--primary);
-    padding: 5px;
-    right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
+  position: absolute;
+  content: "";
+  border-left: 2px solid var(--theme-text-secondary);
+  border-top: 2px solid var(--theme-text-secondary);
+  padding: 4px;
+  right: 12px;
+  top: 50%;
+  margin-top: -6px;
+  transform: rotate(-135deg);
+  transition: transform var(--transition-fast);
 }
 
-.dropdown-check-list .anchor:active:after {
-    right: 8px;
-    top: 21%;
+.dropdown-check-list .anchor.open:after {
+  transform: rotate(45deg);
+  margin-top: -2px;
 }
 
 .dropdown-check-list ul.items {
-    padding: 2px;
-    display: none;
-    margin: 0;
-    border: 1px solid var(--primary);
-    border-radius: 0px 0px 3px 3px;
-    border-top: none;
-    width: 100%;
-    background-color: #fff;
-    position: absolute;
-    z-index: 100;
+  padding: var(--space-xs);
+  display: none;
+  margin: 0;
+  border: 1px solid var(--theme-border);
+  border-radius: var(--radius-md);
+  border-top: none;
+  width: 100%;
+  background-color: var(--theme-surface);
+  position: absolute;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 2px;
+}
+
+.dropdown-check-list ul.items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-check-list ul.items::-webkit-scrollbar-track {
+  background: var(--theme-bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.dropdown-check-list ul.items::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: var(--radius-md);
 }
 
 .dropdown-check-list ul.items li {
-    list-style: none;
+  list-style: none;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--theme-text-primary);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.dropdown-check-list ul.items li:hover {
+  background-color: var(--theme-bg-tertiary);
+  color: var(--brand-primary);
 }
 
 .visible {
-    display: list-item !important;
+  display: list-item !important;
 }
 
 ::marker {
-    color: transparent !important;
+  color: transparent !important;
 }
 
-.schema{
-  color: var(--primary);
+.schema {
+  color: var(--brand-primary);
+  font-weight: 600;
 }

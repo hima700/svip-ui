@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RoutingService } from '../../services/routing.service';
 
 @Component({
@@ -12,7 +12,18 @@ export class ViewerComponent {
   @Input() title: string = '';
   @Input() subTitle: string = '';
   @Input() options: string[] = [];
-  @Input() selectedOption: string = '';
+  
+  private _selectedOption: string = '';
+  @Input() 
+  get selectedOption(): string {
+    return this._selectedOption;
+  }
+  set selectedOption(value: string) {
+    this._selectedOption = value;
+    this.selectedOptionChange.emit(value);
+  }
+  
+  @Output() selectedOptionChange = new EventEmitter<string>();
 
   close() {
     return this.routingService.SetPage(0);

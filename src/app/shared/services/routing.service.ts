@@ -35,4 +35,6 @@ export enum PAGES {
   COMPARE = 2,
   VEX = 3,
   METRICS = 4,
+  VULNERABILITIES = 5,
+  VULNERABILITY_DETAILS = 6,
 }

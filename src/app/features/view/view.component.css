@@ -1,4 +1,41 @@
-pre{
-    white-space:pre-wrap;
-    word-break: break-all;
+/* View Component Styles */
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+  background-color: var(--theme-bg-tertiary);
+  color: var(--theme-text-primary);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--theme-border);
+  font-family: var(--font-family-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0;
+}
+
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: var(--theme-bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: var(--radius-md);
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.content {
+  max-height: 600px;
+  overflow-y: auto;
 }
