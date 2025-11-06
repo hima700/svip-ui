@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AccordionComponent } from './accordion.component';
+import {AccordionComponent} from './accordion.component';
 
 describe('AccordionComponent', () => {
   let component: AccordionComponent;
@@ -8,9 +8,9 @@ describe('AccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccordionComponent ]
+      declarations: [AccordionComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AccordionComponent);
     component = fixture.componentInstance;

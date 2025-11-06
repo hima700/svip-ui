@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ToggleComponent } from './toggle.component';
+import {ToggleComponent} from './toggle.component';
 
 describe('ToggleComponent', () => {
   let component: ToggleComponent;
@@ -8,9 +8,9 @@ describe('ToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ToggleComponent ]
+      declarations: [ToggleComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ToggleComponent);
     component = fixture.componentInstance;

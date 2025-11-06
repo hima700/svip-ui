@@ -1,17 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Toast } from 'bootstrap';
-import { fromEvent, take } from 'rxjs';
-import { EventTypes } from '../../models/event-types';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Toast} from 'bootstrap';
+import {fromEvent, take} from 'rxjs';
+import {EventTypes} from '../../models/event-types';
 
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
+  standalone: false
 })
 export class ToastComponent implements OnInit {
   @Output() disposeEvent = new EventEmitter();
 
-  @ViewChild('toastElement', { static: true })
+  @ViewChild('toastElement', {static: true})
   toastEl!: ElementRef;
 
   @Input()
@@ -34,11 +35,11 @@ export class ToastComponent implements OnInit {
       this.toastEl.nativeElement,
       this.type === EventTypes.Error
         ? {
-            autohide: false,
-          }
+          autohide: false,
+        }
         : {
-            delay: 5000,
-          }
+          delay: 5000,
+        }
     );
 
     fromEvent(this.toastEl.nativeElement, 'hidden.bs.toast')

@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ToastEvent } from '../../models/toast-event';
-import { ToastService } from '../../services/toast.service';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ToastEvent} from '../../models/toast-event';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ToasterComponent implements OnInit {
   currentToasts: ToastEvent[] = [];
@@ -14,7 +15,8 @@ export class ToasterComponent implements OnInit {
   constructor(
     private toastService: ToastService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.subscribeToToasts();

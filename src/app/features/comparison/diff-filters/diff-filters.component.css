@@ -1,22 +1,21 @@
 .filters {
-    max-width: max-content;
-    margin-left: 5px;
-  }
-  
-  .filters > .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .palettes {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-items: left;
-  }
-  
-  .palettes > div > input {
-    margin-right: 4px;
-  }
-  
+  max-width: max-content;
+  margin-left: 5px;
+}
+
+.filters > .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.palettes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: left;
+}
+
+.palettes > div > input {
+  margin-right: 4px;
+}

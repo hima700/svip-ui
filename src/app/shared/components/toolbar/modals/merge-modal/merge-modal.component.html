@@ -1,13 +1,13 @@
-<app-modal [opened]="opened" (close)="Close()">
+<app-modal (close)="Close()" [opened]="opened">
   <div title>Merge SBOMS?</div>
-  <div content class="flex col">
+  <div class="flex col" content>
     <div *ngFor="let sbom of sboms">{{ getAlias(sbom) }}</div>
   </div>
   <div actions style="display: flex; gap: 15px">
-    <div class="btn-modal button flex center hover" (click)="merge()">
+    <div (click)="merge()" class="btn-modal button flex center hover">
       <span>Merge</span>
     </div>
-    <div class="btn-modal button flex center hover" (click)="Close()">
+    <div (click)="Close()" class="btn-modal button flex center hover">
       <span>Cancel</span>
     </div>
   </div>

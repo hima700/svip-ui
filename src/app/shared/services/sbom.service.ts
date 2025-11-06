@@ -1,22 +1,23 @@
-import { Injectable } from '@angular/core';
-import { SVIPService } from './SVIP.service';
-import { PAGES, RoutingService } from './routing.service';
-import File, { FileStatus } from '../models/file';
-import { SBOM } from '../models/sbom';
+import {Injectable} from '@angular/core';
+import {SVIPService} from './SVIP.service';
+import {PAGES, RoutingService} from './routing.service';
+import File, {FileStatus} from '../models/file';
+import {SBOM} from '../models/sbom';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SbomService {
+  public comparison: any;
   private sbomSchemas: { [name: string]: boolean } = {};
   private sbomFormat: { [name: string]: boolean } = {};
-  public comparison: any;
   private files: { [id: string]: File } = {};
 
   constructor(
     private SVIPService: SVIPService,
     private routingService: RoutingService
-  ) {}
+  ) {
+  }
 
   //#region functionality
 
@@ -156,12 +157,13 @@ export class SbomService {
         if (result) {
           this.addSBOMbyID(Number(result));
 
-          if(overwrite)
+          if (overwrite)
             delete this.files[id];
         }
       }
     );
   }
+
   //#endregion
 
   //#region SBOM schemas
@@ -193,7 +195,7 @@ export class SbomService {
   /**
    * Gets all SBOM format helpers
    */
-  getSBOMformat(){
+  getSBOMformat() {
     return this.sbomFormat;
   }
 
@@ -259,7 +261,7 @@ export class SbomService {
    * Gets sbom file name by index in sbom list
    */
   getSBOMAliasByID(id: string) {
-    if(this.files[id].fileName === undefined)
+    if (this.files[id].fileName === undefined)
       return "";
 
     let path = this.files[id].fileName;

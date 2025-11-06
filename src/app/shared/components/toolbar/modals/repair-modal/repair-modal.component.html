@@ -1,19 +1,19 @@
-<app-modal [opened]="opened" (close)="Close()">
-    <div title>Repair Selected</div>
-    <div content class="flex col">
-      <p>Issue: <br>{{ error.details}}</p>
-      <p>Suggested Change:</p>
-      <select [(ngModel)]="selectedFix">
-        <option value=""></option>
-        <option *ngFor="let option of error.fixes">{{ option.newString }}</option>
-      </select>
+<app-modal (close)="Close()" [opened]="opened">
+  <div title>Repair Selected</div>
+  <div class="flex col" content>
+    <p>Issue: <br>{{ error.details }}</p>
+    <p>Suggested Change:</p>
+    <select [(ngModel)]="selectedFix">
+      <option value=""></option>
+      <option *ngFor="let option of error.fixes">{{ option.newString }}</option>
+    </select>
+  </div>
+  <div actions style="display: flex; gap: 15px">
+    <div (click)="Repair()" class="btn-modal button flex center hover">
+      <span>Accept</span>
     </div>
-    <div actions style="display: flex; gap: 15px">
-      <div class="btn-modal button flex center hover" (click)="Repair()">
-        <span>Accept</span>
-      </div>
-      <div class="btn-modal button flex center hover" (click)="Close()">
-        <span>Deny</span>
-      </div>
+    <div (click)="Close()" class="btn-modal button flex center hover">
+      <span>Deny</span>
     </div>
-  </app-modal>
+  </div>
+</app-modal>

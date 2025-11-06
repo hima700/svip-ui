@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { PAGES, RoutingService } from '../../shared/services/routing.service';
-import { SbomService } from '../../shared/services/sbom.service';
-import { SVIPService } from '../../shared/services/SVIP.service';
+import {Component, Input} from '@angular/core';
+import {PAGES, RoutingService} from '../../shared/services/routing.service';
+import {SbomService} from '../../shared/services/sbom.service';
 import File from 'src/app/shared/models/file';
 
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css'],
+  standalone: false
 })
 export class ViewComponent {
   files: File[] = [];

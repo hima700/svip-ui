@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ToastComponent } from './toast.component';
-import { EventTypes } from '../../models/event-types';
-import { DebugElement } from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ToastComponent} from './toast.component';
+import {EventTypes} from '../../models/event-types';
+import {DebugElement} from '@angular/core';
 
 describe('ToastComponent', () => {
   let component: ToastComponent;
@@ -21,12 +21,12 @@ describe('ToastComponent', () => {
   });
 
   it('should create an error toast that does not disappear', () => {
-    
+
     component.type = EventTypes.Error;
     component.title = 'error';
     component.message = 'error';
 
-  
+
     fixture.detectChanges();
     spyOn(component.toast, 'dispose');
 
@@ -43,7 +43,7 @@ describe('ToastComponent', () => {
     spyOn(component.disposeEvent, 'emit');
     const button = debugElement.nativeElement.querySelector('button[class="btn-close"]');
 
- 
+
     fixture.detectChanges();
     spyOn(component.toast, 'dispose');
     button.click();

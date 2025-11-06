@@ -1,18 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RoutingService } from 'src/app/shared/services/routing.service';
-import { SbomService } from 'src/app/shared/services/sbom.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {RoutingService} from 'src/app/shared/services/routing.service';
+import {SbomService} from 'src/app/shared/services/sbom.service';
 
 @Component({
   selector: 'app-compare-modal',
   templateUrl: './compare-modal.component.html',
-  styleUrls: ['./compare-modal.component.css']
+  styleUrls: ['./compare-modal.component.css'],
+  standalone: false
 })
 export class CompareModalComponent {
-  protected compareTarget: string = '';
   @Input() opened: boolean = false;
   @Output() close = new EventEmitter<Boolean>();
+  protected compareTarget: string = '';
 
-  constructor(private sbomService: SbomService, public routing: RoutingService) {}
+  constructor(private sbomService: SbomService, public routing: RoutingService) {
+  }
 
   GetSelected() {
     const checkboxes = document.querySelectorAll('.sbom-checkbox');

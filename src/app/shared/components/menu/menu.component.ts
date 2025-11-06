@@ -1,16 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PAGES, RoutingService } from '../../services/routing.service';
-import { SbomService } from '../../services/sbom.service';
-import { FileStatus } from '../../models/file';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {PAGES, RoutingService} from '../../services/routing.service';
+import {SbomService} from '../../services/sbom.service';
+import {FileStatus} from '../../models/file';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  standalone: false
 })
 export class MenuComponent {
   @Input() text: string = '';
-  @Input() data: string= '';
+  @Input() data: string = '';
   @Input() opened: boolean = false;
   @Output() close = new EventEmitter<Boolean>();
   sbomValid: boolean = false;

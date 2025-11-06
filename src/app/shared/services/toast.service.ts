@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { EventTypes } from '../models/event-types';
-import { ToastEvent } from '../models/toast-event';
+import {Injectable} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {EventTypes} from '../models/event-types';
+import {ToastEvent} from '../models/toast-event';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class ToastService {
   constructor() {
     this.toastEvents = this._toastEvents.asObservable();
   }
-  
+
   showInfoToast(title: string, message: string) {
     this._toastEvents.next({
       message,
@@ -21,7 +21,7 @@ export class ToastService {
       type: EventTypes.Info,
     });
   }
-  
+
   showWarningToast(title: string, message: string) {
     this._toastEvents.next({
       message,

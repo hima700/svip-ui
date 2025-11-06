@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import palettes, { PALETTE } from '../models/palette';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import palettes, {PALETTE} from '../models/palette';
 import filter from '../models/filters';
 
 @Component({
   selector: 'app-qa-filters',
   templateUrl: './qa-filters.component.html',
   styleUrls: ['./qa-filters.component.css'],
+  standalone: false
 })
 export class QaFiltersComponent implements OnInit {
   palettes = palettes;
@@ -20,8 +21,8 @@ export class QaFiltersComponent implements OnInit {
   @Output() resultStatusChange = new EventEmitter<filter>();
 
 
-
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     this.selectedPalette = this.palette;

@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SVIPService } from 'src/app/shared/services/SVIP.service';
-import { RoutingService } from 'src/app/shared/services/routing.service';
-import { SbomService } from 'src/app/shared/services/sbom.service';
-import palettes, { PALETTE, resultStatus } from '../models/palette';
+import {Component, OnInit} from '@angular/core';
+import {SVIPService} from 'src/app/shared/services/SVIP.service';
+import {RoutingService} from 'src/app/shared/services/routing.service';
+import {SbomService} from 'src/app/shared/services/sbom.service';
+import palettes, {PALETTE, resultStatus} from '../models/palette';
 import filter from '../models/filters';
-import { DownloadService } from 'src/app/shared/services/download.service';
+import {DownloadService} from 'src/app/shared/services/download.service';
 
 @Component({
   selector: 'app-metrics',
   templateUrl: './metrics.component.html',
   styleUrls: ['./metrics.component.css'],
+  standalone: false
 })
 export class MetricsComponent implements OnInit {
   qa: any = null;
@@ -20,36 +21,8 @@ export class MetricsComponent implements OnInit {
   palettes = palettes;
   selectedError: any = {};
   public repairModal: boolean = false;
-  private _palette = PALETTE.DEFAULT;
-  get palette() {
-    return this._palette;
-  }
-
-  set palette(value: PALETTE) {
-    this._palette = value;
-    this.setColor();
-    if (this._palette !== PALETTE.DEFAULT) {
-      this.resultStatus['PASS'].color = 'GRAY';
-      this.resultStatus['FAIL'].color = 'BLACK';
-    } else {
-      this.resultStatus['PASS'].color = this.passColor;
-      this.resultStatus['FAIL'].color = this.failColor;
-    }
-  }
-
   passColor = 'var(--success)';
   failColor = 'var(--warn)';
-
-  _resultStatus: resultStatus = {
-    PASS: { shown: true, color: this.passColor },
-    FAIL: { shown: true, color: this.failColor },
-  };
-  set resultStatus(value: resultStatus) {
-    this.resultStatus = this.resultStatus;
-  }
-  get resultStatus() {
-    return this._resultStatus;
-  }
 
   constructor(
     private routing: RoutingService,
@@ -73,20 +46,52 @@ export class MetricsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  private _palette = PALETTE.DEFAULT;
+
+  get palette() {
+    return this._palette;
+  }
+
+  set palette(value: PALETTE) {
+    this._palette = value;
+    this.setColor();
+    if (this._palette !== PALETTE.DEFAULT) {
+      this.resultStatus['PASS'].color = 'GRAY';
+      this.resultStatus['FAIL'].color = 'BLACK';
+    } else {
+      this.resultStatus['PASS'].color = this.passColor;
+      this.resultStatus['FAIL'].color = this.failColor;
+    }
+  }
+
+  _resultStatus: resultStatus = {
+    PASS: {shown: true, color: this.passColor},
+    FAIL: {shown: true, color: this.failColor},
+  };
+
+  get resultStatus() {
+    return this._resultStatus;
+  }
+
+  set resultStatus(value: resultStatus) {
+    this.resultStatus = this.resultStatus;
+  }
+
+  ngOnInit() {
+  }
 
   getKeys() {
     // Components
     Object.keys(this.qa.results).forEach((component) => {
       this.components[component] = [];
-      
+
       this.qa.results[component].forEach((testResult: any) => {
         this.components[component].push(testResult);
         if (testResult.status !== 'ERROR') {
           const processors = testResult.attributes as string[];
           // Processors/Attributes
           processors.forEach((processor: string) => {
-            this.attributes[processor] = { shown: true, color: '' };
+            this.attributes[processor] = {shown: true, color: ''};
           });
         }
       });
@@ -126,7 +131,7 @@ export class MetricsComponent implements OnInit {
     const fileName = 'report.json';
     const reportData = this.qa;
     const reportJson = JSON.stringify(reportData, null, 2);
-    this.downloadService.Download(fileName, new Blob([reportJson], { type: 'application/json' }));
+    this.downloadService.Download(fileName, new Blob([reportJson], {type: 'application/json'}));
   }
 
   openRepairModal(test: any, id: string) {
@@ -135,7 +140,7 @@ export class MetricsComponent implements OnInit {
     this.repairModal = true;
   }
 
-  selectedTest(){
+  selectedTest() {
     return this.selectedError;
   }
 }

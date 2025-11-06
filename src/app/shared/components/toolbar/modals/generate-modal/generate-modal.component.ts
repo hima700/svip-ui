@@ -1,13 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { SVIPService } from 'src/app/shared/services/SVIP.service';
-import { Subject } from 'rxjs';
-import { SbomService } from 'src/app/shared/services/sbom.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SVIPService} from 'src/app/shared/services/SVIP.service';
+import {Subject} from 'rxjs';
+import {SbomService} from 'src/app/shared/services/sbom.service';
+import {ToastService} from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-generate-modal',
   templateUrl: './generate-modal.component.html',
-  styleUrls: ['./generate-modal.component.css']
+  styleUrls: ['./generate-modal.component.css'],
+  standalone: false
 })
 export class GenerateModalComponent implements OnInit {
   public options: {
@@ -22,69 +23,65 @@ export class GenerateModalComponent implements OnInit {
     type: '',
   };
 
-  public choices: {[key: string]: string[]} = {
+  public choices: { [key: string]: string[] } = {
     'CDX14': ['JSON', 'XML'],
     'SPDX23': ['TAGVALUE', 'JSON'],
   }
 
   public types: string[] = ['OSI', 'PARSERS'];
 
-  public osiTools: {[name: string]: boolean} = {};
+  public osiTools: { [name: string]: boolean } = {};
 
   @Input() opened: boolean = false;
   @Output() close = new EventEmitter<Boolean>();
-  private openedSubject = new Subject<boolean>();
-
   public status: GenerationStatus = GenerationStatus.NULL;
   public zippedFileData: any;
-  // Pre-zipped upload temporarily disabled; keep flag for future use
-  // public useExistingZip: boolean = false;
-  // public selectingSource: boolean = true; // when re-enabled, use to gate source step
+  private openedSubject = new Subject<boolean>();
 
-  constructor(private service: SVIPService, private sbomService: SbomService, private toast: ToastService) {}
+  constructor(private service: SVIPService, private sbomService: SbomService, private toast: ToastService) {
+  }
 
   ngOnInit(): void {
     this.openedSubject.subscribe((value) => {
-      if(!value)
+      if (!value)
         return;
 
-        this.zippedFileData = undefined;
-        // Reverted to original flow; previous pre-zip source selection kept below as comments
-        this.status = GenerationStatus.GENERATING;
+      this.zippedFileData = undefined;
+      this.status = GenerationStatus.GENERATING;
 
-        console.log('[SBOM Gen] Starting project directory selection...');
-        this.service.getProjectDirectory().then((result) => {
-          console.log('[SBOM Gen] Directory selected, starting zip...');
-          this.status = GenerationStatus.ZIPPING;
+      console.log('[SBOM Gen] Starting project directory selection...');
+      this.service.getProjectDirectory().then((result) => {
+        console.log('[SBOM Gen] Directory selected, starting zip...');
+        this.status = GenerationStatus.ZIPPING;
 
-          this.service.zipFileDirectory(result).then((data: any) => {
-            console.log('[SBOM Gen] Zip complete, uploading to OSI...', data?.length || 0, 'bytes');
-            this.status = GenerationStatus.UPLOADING;
+        this.service.zipFileDirectory(result).then((data: any) => {
+          console.log('[SBOM Gen] Zip complete, uploading to OSI...', data?.length || 0, 'bytes');
+          this.status = GenerationStatus.UPLOADING;
 
-            this.service.uploadProject(data, 'osi').then((tools: any) => {
-              console.log('[SBOM Gen] OSI upload complete, tools:', tools);
+          this.service.uploadProject(data, 'osi').then((tools: any) => {
+            console.log('[SBOM Gen] OSI upload complete, tools:', tools);
 
-              tools.forEach((tool: any) => {
-                this.osiTools[tool] = true;
-              })
-
-              this.zippedFileData = data;
-              this.status = GenerationStatus.PROJECT_INFO;
-
-            }).catch((error) => {
-              console.error('[SBOM Gen] OSI upload failed:', error);
-              this.toast.showErrorToast("SBOM Generation", "Failed to upload project to OSI");
-              this.Close();
+            tools.forEach((tool: any) => {
+              this.osiTools[tool] = true;
             })
+
+            this.zippedFileData = data;
+            this.status = GenerationStatus.PROJECT_INFO;
+
           }).catch((error) => {
-            console.error('[SBOM Gen] Zip failed:', error);
-            this.toast.showErrorToast("SBOM Generation", "Failed to zip project");
+            console.error('[SBOM Gen] OSI upload failed:', error);
+            this.toast.showErrorToast("SBOM Generation", "Failed to upload project to OSI");
             this.Close();
           })
         }).catch((error) => {
-          console.error('[SBOM Gen] Directory selection cancelled or failed:', error);
+          console.error('[SBOM Gen] Zip failed:', error);
+          this.toast.showErrorToast("SBOM Generation", "Failed to zip project");
           this.Close();
         })
+      }).catch((error) => {
+        console.error('[SBOM Gen] Directory selection cancelled or failed:', error);
+        this.Close();
+      })
     });
   }
 
@@ -111,12 +108,12 @@ export class GenerateModalComponent implements OnInit {
       this.options.format,
       this.options.type,
       tools).then((data: any) => {
-        this.sbomService.addSBOMbyID(data);
-        this.Close();
-      }).catch(() => {
-        this.toast.showErrorToast("SBOM Generation", "Failed");
-        this.Close();
-      })
+      this.sbomService.addSBOMbyID(data);
+      this.Close();
+    }).catch(() => {
+      this.toast.showErrorToast("SBOM Generation", "Failed");
+      this.Close();
+    })
 
 
   }

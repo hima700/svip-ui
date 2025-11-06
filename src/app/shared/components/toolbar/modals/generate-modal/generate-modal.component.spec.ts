@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GenerateModalComponent } from './generate-modal.component';
+import {GenerateModalComponent} from './generate-modal.component';
 
 describe('GenerateModalComponent', () => {
   let component: GenerateModalComponent;
@@ -8,9 +8,9 @@ describe('GenerateModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GenerateModalComponent ]
+      declarations: [GenerateModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(GenerateModalComponent);
     component = fixture.componentInstance;

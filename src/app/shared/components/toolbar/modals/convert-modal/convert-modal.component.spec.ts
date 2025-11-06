@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ConvertModalComponent } from './convert-modal.component';
+import {ConvertModalComponent} from './convert-modal.component';
 
 describe('ConvertModalComponent', () => {
   let component: ConvertModalComponent;
@@ -8,9 +8,9 @@ describe('ConvertModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConvertModalComponent ]
+      declarations: [ConvertModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ConvertModalComponent);
     component = fixture.componentInstance;

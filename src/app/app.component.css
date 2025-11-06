@@ -25,7 +25,7 @@
   display: flex;
 }
 
-.col{
+.col {
   flex-direction: column;
 }
 

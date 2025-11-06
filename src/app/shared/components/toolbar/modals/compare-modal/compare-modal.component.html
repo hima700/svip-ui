@@ -1,22 +1,22 @@
-<app-modal [opened]="opened" (close)="Close()">
-    <div title>
-        Compare Selected
+<app-modal (close)="Close()" [opened]="opened">
+  <div title>
+    Compare Selected
+  </div>
+  <div content style="display: flex; gap: 15px; flex-direction: column;">
+    <div>
+      <div>Select Target:</div>
+      <select [(ngModel)]="compareTarget">
+        <option value=""></option>
+        <option *ngFor="let option of GetSelected()" [value]="option">{{ this.getAlias(option) }}</option>
+      </select>
     </div>
-    <div content style="display: flex; gap: 15px; flex-direction: column;">
-        <div>
-            <div>Select Target:</div>
-            <select [(ngModel)]="compareTarget">
-                <option value=""></option>
-                <option *ngFor="let option of GetSelected()" [value]="option">{{ this.getAlias(option) }}</option>
-            </select>
-        </div>
+  </div>
+  <div actions style=" display: flex; gap: 15px;">
+    <div (click)="CompareSelected()" class="btn-modal button flex center hover">
+      <span>Compare</span>
     </div>
-    <div actions style=" display: flex; gap: 15px;">
-        <div class="btn-modal button flex center hover" (click)="CompareSelected()">
-            <span>Compare</span>
-        </div>
-        <div class="btn-modal button flex center hover" (click)="Close()">
-            <span>Cancel</span>
-        </div>
+    <div (click)="Close()" class="btn-modal button flex center hover">
+      <span>Cancel</span>
     </div>
+  </div>
 </app-modal>
