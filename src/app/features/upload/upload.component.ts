@@ -11,6 +11,7 @@ import { DownloadService } from 'src/app/shared/services/download.service';
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'],
+  standalone: false,
   host: {
     '(window:resize)': 'onResize($event)'
   }
