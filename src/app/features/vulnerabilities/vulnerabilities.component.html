@@ -34,24 +34,38 @@
   
   <!-- Alert Summary Cards -->
   <div *ngIf="selectedProject; else selectProjectPrompt" class="stats-cards">
-    <div class="stat-card total">
+    <div class="stat-card total clickable" (click)="viewBySeverity(null)">
       <div class="stat-content">
         <h3>{{stats.total}}</h3>
         <p>Total Vulnerabilities</p>
       </div>
     </div>
     
-    <div class="stat-card critical">
+    <div class="stat-card critical clickable" (click)="viewBySeverity('CRITICAL')" [class.disabled]="stats.critical === 0">
       <div class="stat-content">
         <h3>{{stats.critical}}</h3>
         <p>Critical Vulnerabilities</p>
       </div>
     </div>
     
-    <div class="stat-card high">
+    <div class="stat-card high clickable" (click)="viewBySeverity('HIGH')" [class.disabled]="stats.high === 0">
       <div class="stat-content">
         <h3>{{stats.high}}</h3>
         <p>High Severity</p>
+      </div>
+    </div>
+    
+    <div class="stat-card medium clickable" (click)="viewBySeverity('MEDIUM')" [class.disabled]="stats.medium === 0">
+      <div class="stat-content">
+        <h3>{{stats.medium}}</h3>
+        <p>Medium Severity</p>
+      </div>
+    </div>
+    
+    <div class="stat-card low clickable" (click)="viewBySeverity('LOW')" [class.disabled]="stats.low === 0">
+      <div class="stat-content">
+        <h3>{{stats.low}}</h3>
+        <p>Low Severity</p>
       </div>
     </div>
   </div>

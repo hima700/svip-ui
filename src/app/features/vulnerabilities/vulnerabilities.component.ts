@@ -68,8 +68,20 @@ export class VulnerabilitiesComponent implements OnInit, OnDestroy {
   ) {}
   
   ngOnInit(): void {
+    // Restore selected project from routing data if available
+    const data = this.routing.data;
+    if (data && data.selectedProject) {
+      this.selectedProject = data.selectedProject;
+      console.log('Restored selected project:', this.selectedProject);
+    }
+    
     this.loadAlerts();
     this.loadProjects();
+    
+    // Load trend for restored project
+    if (this.selectedProject) {
+      this.loadTrend();
+    }
 
     this.refreshSubscription = interval(60000)
       .subscribe(() => {
@@ -170,16 +182,35 @@ export class VulnerabilitiesComponent implements OnInit, OnDestroy {
   
   viewAlertDetails(alertData: VulnerabilityAlert): void {
     console.log('Viewing alert details for SBOM ID:', alertData.sbomId);
-    // Navigate to vulnerability details page
+    // Navigate to vulnerability details page with severity filter from alert
     this.routing.SetPage(PAGES.VULNERABILITY_DETAILS);
     this.routing.data = { 
       sbomId: alertData.sbomId,
-      projectName: alertData.projectName
+      projectName: alertData.projectName,
+      severityFilter: alertData.severity // Filter by alert's severity
+    };
+  }
+
+  viewBySeverity(severity: string | null): void {
+    if (!this.selectedProject) return;
+    
+    console.log('Viewing vulnerabilities by severity:', severity || 'ALL', 'for project:', this.selectedProject);
+    this.routing.SetPage(PAGES.VULNERABILITY_DETAILS);
+    this.routing.data = {
+      projectName: this.selectedProject,
+      severityFilter: severity // null = show all, 'CRITICAL'/'HIGH'/etc = filter
     };
   }
   
   getSeverityClass(severity: string): string {
-    return severity === 'CRITICAL' ? 'severity-critical' : 'severity-high';
+    const sev = severity.toUpperCase();
+    switch (sev) {
+      case 'CRITICAL': return 'severity-critical';
+      case 'HIGH': return 'severity-high';
+      case 'MEDIUM': return 'severity-medium';
+      case 'LOW': return 'severity-low';
+      default: return 'severity-high';
+    }
   }
 
   getPrettySbomName(sbomName: string | null | undefined, projectName: string): string {
