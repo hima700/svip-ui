@@ -80,15 +80,69 @@ ipcMain.handle("zipDirectory", async() => {
       console.log('[Electron] Starting zip of:', zipPaths[0]);
       console.log('[Electron] Output path:', zipPaths[1]);
       
-      // Dynamic import for ES module
+      // Check if node_modules exists and warn about size
+      const nodeModulesPath = path.join(zipPaths[0], 'node_modules');
+      const hasNodeModules = fs.existsSync(nodeModulesPath);
+      
+      if (hasNodeModules) {
+        console.log('[Electron] WARNING: node_modules detected - excluding from zip for faster processing');
+        console.log('[Electron] OSI will run npm install automatically if needed');
+      }
+      
+      // Dynamic import for ES modules
       const { zip } = await import("zip-a-folder");
-      await zip(zipPaths[0], zipPaths[1]);
-      console.log('[Electron] Zip complete! Reading file...');
+      const archiver = await import("archiver");
+      const streamBuffers = await import("stream-buffers");
       
-      const fileData = await fs.promises.readFile(zipPaths[1]);
-      console.log('[Electron] File read complete, size:', fileData.length, 'bytes');
+      // Create a buffer to store the zip
+      const outputStreamBuffer = new streamBuffers.default.WritableStreamBuffer({
+        initialSize: (100 * 1024),
+        incrementAmount: (10 * 1024)
+      });
       
-      return resolve(fileData);
+      // Create archive with exclusions
+      const archive = archiver.default('zip', {
+        zlib: { level: 5 } // Moderate compression for speed
+      });
+      
+      archive.on('error', (err) => {
+        console.error('[Electron] Archive error:', err);
+        reject(err);
+      });
+      
+      archive.on('end', async () => {
+        console.log('[Electron] Archive finalized, size:', archive.pointer(), 'bytes');
+        const buffer = outputStreamBuffer.getContents();
+        
+        // Write to temp file
+        await fs.promises.writeFile(zipPaths[1], buffer);
+        console.log('[Electron] Zip file written to:', zipPaths[1]);
+        
+        return resolve(buffer);
+      });
+      
+      // Pipe archive to buffer
+      archive.pipe(outputStreamBuffer);
+      
+      // Add directory with exclusions
+      archive.glob('**/*', {
+        cwd: zipPaths[0],
+        ignore: [
+          '**/node_modules/**',
+          '**/.git/**',
+          '**/dist/**',
+          '**/build/**',
+          '**/.next/**',
+          '**/coverage/**',
+          '**/.cache/**',
+          '**/tmp/**',
+          '**/*.log'
+        ]
+      });
+      
+      console.log('[Electron] Creating optimized zip (excluding node_modules and build artifacts)...');
+      await archive.finalize();
+      
     } catch(error) {
       console.error('[Electron] Zip error:', error);
       return reject(error);
