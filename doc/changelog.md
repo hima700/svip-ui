@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - (11/22/25)
+### Added
+- Security Dashboard that surfaces per-project vulnerability totals, severity cards, active alerts, and historical trends, powered by the new backend history endpoints.
+- Severity filters, project dropdowns, and improved toast workflows so users can acknowledge alerts and pivot between SBOMs faster.
+
+### Changed
+- Optimized the Electron zip routine to skip `node_modules`/build artifacts before sending projects to OSI, drastically reducing upload times.
+- Raised the Angular `anyComponentStyle` budget to 10kb to eliminate noisy build warnings from rich views like upload/viewer.
+
 ## [v1.2.1] - (11/29/23)
 ### Added
 - Support for XML CDX SBOM's in Convert and Generate added 
